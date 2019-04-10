@@ -1,9 +1,9 @@
 package com.vortex.secret.ui.app
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.vortex.secret.R
 import com.vortex.secret.ui.custom.PostBottomSheet
@@ -19,7 +19,13 @@ class AppActivity : AppCompatActivity() {
         setContentView(R.layout.activity_app)
 
         viewModel.likeResponseErrorLiveData.observe(this, Observer {
-            window.decorView.rootView.showSnackBar(it)
+            it.message?.let { message -> window.decorView.rootView.showSnackBar(message) }
+        })
+
+        viewModel.likeResponseLiveData.observe(this, Observer { success ->
+            if (!success) {
+                window.decorView.rootView.showSnackBar(getString(R.string.general_error))
+            }
         })
     }
 
@@ -30,7 +36,7 @@ class AppActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+        when (item?.itemId) {
             R.id.menu_post -> {
                 PostBottomSheet.newInstance {
                     viewModel.addNewPost(it)

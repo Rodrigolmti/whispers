@@ -4,12 +4,13 @@ import androidx.lifecycle.*
 import com.vortex.secret.data.model.PostModel
 import com.vortex.secret.data.repository.IPostRepository
 import com.vortex.secret.util.BaseViewModel
+import com.vortex.secret.util.Result
 
 class HomeViewModel(private val repository: IPostRepository) : BaseViewModel(), LifecycleObserver {
 
     private val _updatePostMutableLiveDate = repository.postsMutableLiveData
-    private val _errorMutableLiveData = repository.responseErrorMutableLiveData
-    private val _loadingMutableLiveData = MutableLiveData<Boolean>()
+    private val _errorMutableLiveData: MutableLiveData<Throwable> = MutableLiveData()
+    private val _loadingMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
     val updatePostLiveDate: LiveData<MutableList<PostModel>>
         get() = _updatePostMutableLiveDate
@@ -22,18 +23,29 @@ class HomeViewModel(private val repository: IPostRepository) : BaseViewModel(), 
     fun updatePosts() {
         launchData {
             _loadingMutableLiveData.value = true
-            repository.updatePosts()
+            val response = repository.updatePosts()
+            when (response) {
+                is Result.Error -> { _errorMutableLiveData.value = response.error }
+            }
             _loadingMutableLiveData.value = false
         }
     }
 
     fun updatePostLike(postModel: PostModel) {
-        launchData { repository.updatePostLike(postModel) }
+        launchData {
+            val response = repository.updatePostLike(postModel)
+            when (response) {
+                is Result.Error -> { _errorMutableLiveData.value = response.error }
+            }
+        }
     }
 
     fun removePost(postModel: PostModel) {
         launchData {
-            repository.deletePost(postModel)
+            val response = repository.deletePost(postModel)
+            when (response) {
+                is Result.Error -> { _errorMutableLiveData.value = response.error }
+            }
         }
     }
 }

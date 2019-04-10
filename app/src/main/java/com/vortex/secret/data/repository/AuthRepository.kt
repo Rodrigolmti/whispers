@@ -42,6 +42,8 @@ class AuthRepository(
 
                     firestoreManager.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                         handleAuthResult(task, continuation)
+                    }.addOnFailureListener { error ->
+                        continuation.resume(Result.Error(error))
                     }
 
                 } catch (error: Exception) {
@@ -58,6 +60,8 @@ class AuthRepository(
 
                     firestoreManager.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                         handleAuthResult(task, continuation)
+                    }.addOnFailureListener { error ->
+                        continuation.resume(Result.Error(error))
                     }
 
                 } catch (error: Exception) {

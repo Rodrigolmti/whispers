@@ -23,9 +23,13 @@ class SignInViewModel(private val repository: IAuthRepository) : BaseViewModel()
         launchData {
             _loadingMutableLiveData.value = true
             val response = repository.signInUserWithEmail(email, password)
-            when(response) {
-                is Result.Success -> { _authResponseMutableLiveData.value = response.data }
-                is Result.Error -> { _errorSignInMutableLiveDate.value = response.error }
+            when (response) {
+                is Result.Success -> {
+                    _authResponseMutableLiveData.value = response.data
+                }
+                is Result.Error -> {
+                    _errorSignInMutableLiveDate.value = response.error
+                }
             }
             _loadingMutableLiveData.value = false
         }
