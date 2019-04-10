@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "324256976655",
+    "firebase_url": "https://whispers-9a840.firebaseio.com",
+    "project_id": "whispers-9a840",
+    "storage_bucket": "whispers-9a840.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324256976655:android:565b4eab5c334bb0",
+        "android_client_info": {
+          "package_name": "com.vortex.whispers"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFGM2vob9RO635nKWDX8nH6STr8ceaPnw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "324256976655-fbcg4vfqrqc0eafbvru7v2ieoa32nrp5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

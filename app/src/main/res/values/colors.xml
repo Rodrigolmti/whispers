@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">@color/black</color>
+    <color name="colorPrimaryDark">@color/black_dark</color>
+    <color name="colorAccent">@color/armadillo</color>
+
+    <color name="black">#212121</color>
+    <color name="white">@android:color/white</color>
+    <color name="armadillo">#484848</color>
+    <color name="black_dark">#000000</color>
+
+    <color name="dark_pink">#ED5979</color>
+    <color name="indigo">#5863CC</color>
+    <color name="turquoise_blue">#53CFF8</color>
+    <color name="turquoise">#41E6E3</color>
+    <color name="shamrock">#29E685</color>
+    <color name="green">#20C26E</color>
+    <color name="robins_egg_blue">#24D7D5</color>
+    <color name="spiro_disco_ball">#26BDF6</color>
+    <color name="dull_blue">#3D45C3</color>
+    <color name="radical_red">#F23E5A</color>
+    <color name="san_juan">#485460</color>
+    <color name="geyser">#D2DAE1</color>
+    <color name="carnation">#FC5F5C</color>
+    <color name="goldenrod">#FEDB64</color>
+    <color name="golden_tainoi">#FDBF54</color>
+    <color name="black_pearl">#1E262D</color>
+    <color name="regent_gray">#818E9A</color>
+    <color name="coral_red">#FC413C</color>
+    <color name="bright_sun">#FED140</color>
+    <color name="sea_buckthorn">#FDA729</color>
+
+</resources>

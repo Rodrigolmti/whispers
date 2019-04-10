@@ -1,0 +1,29 @@
+<resources>
+
+    <string name="app_name">Whispers</string>
+
+    <string name="general_email_error">Please inform your e-mail!</string>
+    <string name="general_email_invalid">Please inform a valid e-mail!</string>
+    <string name="general_password_invalid">Please inform a valid password with at least 6 digits!</string>
+    <string name="general_password_error">Please inform your password!</string>
+    <string name="general_nickname_error">Please inform your nickname!</string>
+
+    <string name="sign_in_fragment_button_title">Sign In</string>
+    <string name="sign_in_fragment_password_hint">Password</string>
+    <string name="sign_in_fragment_email_hint">E-mail</string>
+    <string name="sign_in_fragment_title">Sign In</string>
+    <string name="sign_in_fragment_sign_up_link">Don\'t have account? Sign Up</string>
+
+    <string name="sign_up_fragment_button_title">Sign Up</string>
+    <string name="sign_up_fragment_nickname_hint">Nickname</string>
+    <string name="sign_up_fragment_password_hint">Password</string>
+    <string name="sign_up_fragment_email_hint">E-mail</string>
+    <string name="sign_up_fragment_title">Sign Up</string>
+
+    <string name="bottom_sheet_post_title">New post</string>
+    <string name="bottom_sheet_post_body_hint">Type your whisper</string>
+    <string name="bottom_sheet_post_color_title">Select one color</string>
+    <string name="bottom_sheet_post_button_title">Post</string>
+    <string name="fragment_home_empty_list">Ops! Nothing here, \nwhy don\'t you try put some new content?</string>
+
+</resources>

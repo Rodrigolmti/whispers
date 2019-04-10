@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="margin_xsmall">8dp</dimen>
+    <dimen name="margin_small">16dp</dimen>
+    <dimen name="margin_medium">24dp</dimen>
+    <dimen name="margin_large">32dp</dimen>
+
+    <dimen name="radius_small">6dp</dimen>
+    <dimen name="radius_medium">8dp</dimen>
+    <dimen name="radius_large">10dp</dimen>
+
+    <dimen name="screen_margin_top">@dimen/margin_small</dimen>
+    <dimen name="screen_margin_start">@dimen/margin_small</dimen>
+    <dimen name="screen_margin_end">@dimen/margin_small</dimen>
+    <dimen name="screen_margin_bottom">@dimen/margin_small</dimen>
+
+    <dimen name="screen_view_distance_small">10dp</dimen>
+    <dimen name="screen_view_distance_medium">20dp</dimen>
+    <dimen name="screen_view_distance_large">40dp</dimen>
+
+</resources>
