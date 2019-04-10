@@ -38,7 +38,6 @@ class SignUpFragment : Fragment() {
         }
 
         viewModel.loadingLiveData.observe(this, Observer {
-
             if (it) {
                 tvTitle.gone()
                 tilNickname.gone()
@@ -56,13 +55,17 @@ class SignUpFragment : Fragment() {
             }
         })
 
-        viewModel.successSignUpMutableLiveDate.observe(this, Observer {
-            startActivity(Intent(context, AppActivity::class.java))
-            activity?.finish()
+        viewModel.authResponseLiveData.observe(this, Observer {
+            if (it) {
+                startActivity(Intent(context, AppActivity::class.java))
+                activity?.finish()
+            } else {
+                view.showSnackBar(getString(R.string.general_error))
+            }
         })
 
-        viewModel.errorSignUpMutableLiveDate.observe(this, Observer {
-            view.showSnackBar(it)
+        viewModel.errorSignUpLiveDate.observe(this, Observer {
+            it.message?.let { message -> view.showSnackBar(message) }
         })
     }
 

@@ -29,8 +29,8 @@ class SignInFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_sign_in, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         idSignUpLink.setOnClickListener { findNavController().navigate(R.id.action_signInFragment_to_signUpFragment) }
 
@@ -44,7 +44,6 @@ class SignInFragment : Fragment() {
         }
 
         viewModel.loadingLiveData.observe(this, Observer {
-
             if (it) {
                 tvTitle.gone()
                 tilEmail.gone()
@@ -62,13 +61,17 @@ class SignInFragment : Fragment() {
             }
         })
 
-        viewModel.successSignInMutableLiveDate.observe(this, Observer {
-            startActivity(Intent(context, AppActivity::class.java))
-            activity?.finish()
+        viewModel.authResponseLiveData.observe(this, Observer {
+            if (it) {
+                startActivity(Intent(context, AppActivity::class.java))
+                activity?.finish()
+            } else {
+                view.showSnackBar(getString(R.string.general_error))
+            }
         })
 
         viewModel.errorSignInMutableLiveDate.observe(this, Observer {
-            view?.showSnackBar(it)
+            it.message?.let { message -> view.showSnackBar(message) }
         })
     }
 

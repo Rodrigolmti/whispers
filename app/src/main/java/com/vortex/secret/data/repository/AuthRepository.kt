@@ -20,12 +20,12 @@ interface IAuthRepository {
     suspend fun signUpUserWithEmail(
         email: String,
         password: String
-    ): Result<AuthResult>
+    ): Result<Boolean>
 
     suspend fun signInUserWithEmail(
         email: String,
         password: String
-    ): Result<AuthResult>
+    ): Result<Boolean>
 
     suspend fun verifyUserSession(): Result<Boolean>
 }
@@ -35,14 +35,15 @@ class AuthRepository(
     private val localPreferences: ILocalPreferences
 ) : IAuthRepository {
 
-    override suspend fun signUpUserWithEmail(email: String, password: String): Result<AuthResult> {
+    override suspend fun signUpUserWithEmail(email: String, password: String): Result<Boolean> {
         return withContext(IO) {
-            suspendCoroutine<Result<AuthResult>> { continuation ->
+            suspendCoroutine<Result<Boolean>> { continuation ->
                 try {
-                    firestoreManager.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
-                            handleTaskResult(task, continuation)
-                        }
+
+                    firestoreManager.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                        handleAuthResult(task, continuation)
+                    }
+
                 } catch (error: Exception) {
                     continuation.resumeWithException(error)
                 }
@@ -50,14 +51,15 @@ class AuthRepository(
         }
     }
 
-    override suspend fun signInUserWithEmail(email: String, password: String): Result<AuthResult> {
+    override suspend fun signInUserWithEmail(email: String, password: String): Result<Boolean> {
         return withContext(IO) {
-            suspendCoroutine<Result<AuthResult>> { continuation ->
+            suspendCoroutine<Result<Boolean>> { continuation ->
                 try {
-                    firestoreManager.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
-                            handleTaskResult(task, continuation)
-                        }
+
+                    firestoreManager.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                        handleAuthResult(task, continuation)
+                    }
+
                 } catch (error: Exception) {
                     continuation.resumeWithException(error)
                 }
@@ -69,9 +71,15 @@ class AuthRepository(
         return withContext(IO) {
             suspendCoroutine<Result<Boolean>> { continuation ->
                 try {
-                    val response = localPreferences.getString(USER_ID)
-                    response.takeIf { it != NO_VALUE }?.let { UserSession.setupUser(it) }
-                    continuation.resume(Result.Success(response != NO_VALUE))
+
+                    val userUuid = localPreferences.getString(USER_ID)
+                    userUuid.takeIf { it != NO_VALUE }?.let {
+                        continuation.resume(Result.Success(true))
+                        UserSession.setupUser(it)
+                    } ?: run {
+                        continuation.resume(Result.Success(false))
+                    }
+
                 } catch (error: Exception) {
                     continuation.resumeWithException(error)
                 }
@@ -79,17 +87,22 @@ class AuthRepository(
         }
     }
 
-    private fun handleTaskResult(
+    private fun handleAuthResult(
         task: Task<AuthResult>,
-        continuation: Continuation<Result<AuthResult>>
-    ) = if (task.isSuccessful) {
-        task.result?.let {
-            val userId = it.user.uid
-            localPreferences.putString(USER_ID, userId)
-            continuation.resume(Result.Success(it))
-            UserSession.setupUser(userId)
+        continuation: Continuation<Result<Boolean>>
+    ) {
+        if (task.isSuccessful) {
+            task.result?.let {
+                it.user.uid.takeIf { uid -> uid.isNotEmpty() }?.let { uuid ->
+                    UserSession.setupUser(uuid)
+                    localPreferences.putString(USER_ID, uuid)
+                    continuation.resume(Result.Success(true))
+                } ?: run {
+                    continuation.resume(Result.Success(false))
+                }
+            }
+        } else {
+            task.exception?.let { continuation.resume(Result.Error(it)) }
         }
-    } else {
-        task.exception?.let { continuation.resume(Result.Error(it)) }
     }
 }

@@ -20,11 +20,6 @@ class SplashViewModel(private val repository: IAuthRepository) : BaseViewModel()
     fun onStart() {
         launchData {
             val response = repository.verifyUserSession()
-            when (response) {
-                is Result.Success -> {
-                    _userSessionMutableLiveData.value = response.data
-                }
-            }
         }
     }
 }

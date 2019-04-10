@@ -8,6 +8,7 @@ import com.vortex.secret.util.BaseViewModel
 
 class AppViewModel(private val repository: IPostRepository) : BaseViewModel() {
 
+    //TODO: implement this error, who is posting values here?
     private val _likeResponseErrorMutableLiveData = MutableLiveData<String>()
 
     val likeResponseErrorLiveData: LiveData<String>

@@ -28,8 +28,8 @@ class PostRepository(
     private val firestoreManager: IFirestoreManager
 ) : IPostRepository {
 
-    override val postsMutableLiveData = MutableLiveData<MutableList<PostModel>>()
-    override val responseErrorMutableLiveData = MutableLiveData<Throwable>()
+    override val postsMutableLiveData: MutableLiveData<MutableList<PostModel>> = MutableLiveData()
+    override val responseErrorMutableLiveData: MutableLiveData<Throwable> = MutableLiveData()
 
     init {
         postsMutableLiveData.value = mutableListOf()
