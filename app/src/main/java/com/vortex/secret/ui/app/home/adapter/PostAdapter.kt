@@ -13,6 +13,7 @@ import com.vortex.secret.data.model.PostModel
 import com.vortex.secret.util.BaseAdapter
 import com.vortex.secret.util.BaseViewHolder
 import com.vortex.secret.util.OnClick
+import com.vortex.secret.util.extensions.gone
 import com.vortex.secret.util.extensions.showSnackBar
 import com.vortex.secret.util.extensions.visible
 
@@ -76,6 +77,8 @@ class PostAdapter(
             if (item.authorId == UserSession.userId) {
                 ivRemove.setOnClickListener { onClickRemove(item) }
                 ivRemove.visible()
+            } else {
+                ivRemove.gone()
             }
 
             item.color?.let {

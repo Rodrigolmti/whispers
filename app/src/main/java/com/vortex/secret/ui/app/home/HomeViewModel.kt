@@ -1,6 +1,7 @@
 package com.vortex.secret.ui.app.home
 
 import androidx.lifecycle.*
+import com.vortex.secret.data.model.PostCommentModel
 import com.vortex.secret.data.model.PostModel
 import com.vortex.secret.data.repository.IPostRepository
 import com.vortex.secret.util.BaseViewModel
@@ -19,7 +20,7 @@ class HomeViewModel(private val repository: IPostRepository) : BaseViewModel(), 
     val loadingLiveData: LiveData<Boolean>
         get() = _loadingMutableLiveData
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun updatePosts() {
         launchData {
             _loadingMutableLiveData.value = true

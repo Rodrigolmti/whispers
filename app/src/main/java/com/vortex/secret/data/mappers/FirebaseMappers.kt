@@ -1,12 +1,11 @@
 package com.vortex.secret.data.mappers
 
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
-import com.vortex.secret.data.model.PostComment
-import com.vortex.secret.data.model.PostLike
 import com.vortex.secret.data.model.PostModel
 import java.util.*
 
-fun mapPostModelToFirebaseDocument(postModel: PostModel) : HashMap<String, Any> {
+fun mapPostModelToFirebaseDocument(postModel: PostModel): HashMap<String, Any> {
     val hashMap = HashMap<String, Any>()
     postModel.authorId?.let { hashMap["authorId"] = it }
     postModel.body?.let { hashMap["body"] = it }
@@ -17,15 +16,26 @@ fun mapPostModelToFirebaseDocument(postModel: PostModel) : HashMap<String, Any> 
     return hashMap
 }
 
-fun mapFirebaseDocumentToPostModel(result: QuerySnapshot) : MutableList<PostModel> {
+fun mapFirebaseDocumentToPostMutableList(result: QuerySnapshot): MutableList<PostModel> {
     return try {
         result.map { documentSnapshot ->
             val post = documentSnapshot.toObject(PostModel::class.java)
             post.id = documentSnapshot.id
             post
         }.toMutableList()
-    } catch (error : Exception) {
+    } catch (error: Exception) {
         error.printStackTrace()
         mutableListOf()
+    }
+}
+
+fun mapFirebaseDocumentToPostModel(result: DocumentSnapshot): PostModel? {
+    return try {
+        val post = result.toObject(PostModel::class.java)
+        post?.id = result.id
+        post
+    } catch (error: Exception) {
+        error.printStackTrace()
+        null
     }
 }

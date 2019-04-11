@@ -3,10 +3,7 @@ package com.vortex.secret.data.remote
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
 import com.vortex.secret.data.mappers.mapPostModelToFirebaseDocument
 import com.vortex.secret.data.model.PostModel
 
@@ -25,7 +22,11 @@ interface IFirestoreManager {
 
     fun updatePostLike(postModel: PostModel): Task<Void>
 
+    fun updatePostComment(postModel: PostModel): Task<Void>
+
     fun deletePost(postModel: PostModel): Task<Void>
+
+    fun getPostById(postId: String): Task<DocumentSnapshot>
 }
 
 class FirestoreManager : IFirestoreManager {
@@ -54,7 +55,14 @@ class FirestoreManager : IFirestoreManager {
         return FirebaseFirestore.getInstance()
             .collection(POST_COLLECTION)
             .document(postModel.id ?: "")
-            .set(mapPostModelToFirebaseDocument(postModel))
+            .set(mapPostModelToFirebaseDocument(postModel), SetOptions.merge())
+    }
+
+    override fun updatePostComment(postModel: PostModel): Task<Void> {
+        return FirebaseFirestore.getInstance()
+            .collection(POST_COLLECTION)
+            .document(postModel.id ?: "")
+            .set(mapPostModelToFirebaseDocument(postModel), SetOptions.merge())
     }
 
     override fun deletePost(postModel: PostModel): Task<Void> {
@@ -62,5 +70,12 @@ class FirestoreManager : IFirestoreManager {
             .collection(POST_COLLECTION)
             .document(postModel.id ?: "")
             .delete()
+    }
+
+    override fun getPostById(postId: String): Task<DocumentSnapshot> {
+        return FirebaseFirestore.getInstance()
+            .collection(POST_COLLECTION)
+            .document(postId)
+            .get()
     }
 }

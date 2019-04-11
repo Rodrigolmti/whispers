@@ -52,12 +52,12 @@ class SignInFragment : Fragment() {
                 idSignUpLink.gone()
                 ltLoading.visible()
             } else {
+                ltLoading.gone()
                 tvTitle.visible()
                 tilEmail.visible()
                 tilPassword.visible()
                 btSignIn.visible()
                 idSignUpLink.visible()
-                ltLoading.gone()
             }
         })
 

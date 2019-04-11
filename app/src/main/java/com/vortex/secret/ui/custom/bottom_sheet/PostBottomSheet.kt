@@ -1,15 +1,14 @@
-package com.vortex.secret.ui.custom
+package com.vortex.secret.ui.custom.bottom_sheet
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout.HORIZONTAL
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.vortex.secret.R
 import com.vortex.secret.data.model.PostColor
+import com.vortex.secret.data.model.PostCommentModel
 import com.vortex.secret.data.model.PostModel
 import com.vortex.secret.ui.app.home.adapter.PostColorAdapter
 import kotlinx.android.synthetic.main.fragment_bottom_sheet_post.*
@@ -17,7 +16,7 @@ import java.util.*
 
 typealias PostEvent = (post: PostModel) -> Unit
 
-class PostBottomSheet : BottomSheetDialogFragment() {
+class PostBottomSheet : BaseBottomSheet() {
 
     private lateinit var postEvent: PostEvent
     private val postModel = PostModel()
@@ -30,8 +29,6 @@ class PostBottomSheet : BottomSheetDialogFragment() {
             return postBottomSheet
         }
     }
-
-    override fun getTheme(): Int = R.style.BottomSheetDialogTheme
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -70,7 +67,7 @@ class PostBottomSheet : BottomSheetDialogFragment() {
 
         btPost.setOnClickListener {
             if (validateFields()) {
-                populateModel()
+                postModel.body = etPost.text.toString()
                 postEvent(postModel)
                 dismiss()
             }
@@ -87,14 +84,5 @@ class PostBottomSheet : BottomSheetDialogFragment() {
         }
 
         return true
-    }
-
-    private fun populateModel()  {
-        postModel.body = etPost.text.toString()
-        postModel.createdAt = Date().toString()
-    }
-
-    fun show(fragmentManager: FragmentManager) {
-        show(fragmentManager, PostBottomSheet::javaClass.name)
     }
 }

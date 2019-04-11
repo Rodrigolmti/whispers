@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_bottom_sheet"
-    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gdTop"
@@ -27,11 +27,24 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="@dimen/screen_margin_start"/>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gdBottom"
-        android:layout_width="wrap_content"
+    <com.vortex.secret.ui.custom.CustomCircleView
+        android:id="@+id/cvColor"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toTopOf="@id/gdBottom"
+        app:layout_constraintStart_toStartOf="@+id/gdStart"
+        app:layout_constraintTop_toTopOf="@+id/gdTop"/>
+
+    <TextView
+        android:id="@+id/tvComment"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="@dimen/screen_margin_start"/>
+        android:layout_marginStart="@dimen/screen_view_distance_small"
+        android:textAppearance="@style/Whisper.Post.Comment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/gdEnd"
+        app:layout_constraintStart_toEndOf="@+id/cvColor"
+        app:layout_constraintTop_toTopOf="@+id/gdTop"
+        tools:text="Hahaha, eu vi isso ai sim"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

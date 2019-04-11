@@ -46,12 +46,12 @@ class SignUpFragment : Fragment() {
                 btSignUp.gone()
                 ltLoading.visible()
             } else {
+                ltLoading.gone()
                 tvTitle.visible()
                 tilNickname.visible()
                 tilEmail.visible()
                 tilPassword.visible()
                 btSignUp.visible()
-                ltLoading.gone()
             }
         })
 

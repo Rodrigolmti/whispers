@@ -41,9 +41,9 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_rectangle_bottom_sheet"
         app:layout_constraintEnd_toStartOf="@+id/gdEnd"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/gdStart"
         app:layout_constraintTop_toTopOf="@+id/gdTop"/>
+
     <TextView
         android:id="@+id/tvNewPost"
         style="@style/Whisper.Title"

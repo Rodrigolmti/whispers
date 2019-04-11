@@ -16,22 +16,28 @@
     </style>
 
     <!-- Text Views themes -->
+    <style name="Whisper" parent="android:Theme.Light">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Whisper.Title" parent="android:Theme.Light">
         <item name="android:textSize">32sp</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/black_dark</item>
     </style>
 
     <style name="Whisper.Post.Title" parent="android:Theme.Light">
         <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="Whisper.Post.Counter" parent="android:Theme.Light">
         <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Whisper.Post.Comment" parent="android:Theme.Light">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <!-- Buttons themes -->

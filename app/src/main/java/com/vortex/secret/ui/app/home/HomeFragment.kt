@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vortex.secret.R
 import com.vortex.secret.ui.app.home.adapter.PostAdapter
@@ -21,8 +22,10 @@ class HomeFragment : Fragment() {
     private val viewModel by viewModel<HomeViewModel>()
     private lateinit var adapter: PostAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -50,9 +53,13 @@ class HomeFragment : Fragment() {
         })
 
         viewModel.errorLiveData.observe(this, Observer { error ->
-            when(error) {
-                is EmptyDataError -> { controlErrorVisibility(hideError = false) }
-                else -> { error.message?.let { view.showSnackBar(it) } }
+            when (error) {
+                is EmptyDataError -> {
+                    controlErrorVisibility(hideError = false)
+                }
+                else -> {
+                    error.message?.let { view.showSnackBar(it) }
+                }
             }
         })
 
@@ -75,7 +82,9 @@ class HomeFragment : Fragment() {
             onClickView = {},
             onClickLike = { viewModel.updatePostLike(it) },
             onClickRemove = { viewModel.removePost(it) },
-            onClickComment = {}
+            onClickComment = { postModel ->
+                postModel.id?.let { findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToPostCommentFragment(it)) }
+            }
         )
         rvPosts.adapter = adapter
     }

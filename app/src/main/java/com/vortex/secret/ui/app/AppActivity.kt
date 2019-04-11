@@ -6,7 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.vortex.secret.R
-import com.vortex.secret.ui.custom.PostBottomSheet
+import com.vortex.secret.ui.custom.bottom_sheet.PostBottomSheet
 import com.vortex.secret.util.extensions.showSnackBar
 import org.koin.android.viewmodel.ext.android.viewModel
 

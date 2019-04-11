@@ -9,5 +9,17 @@
         android:id="@+id/homeFragment"
         android:label="fragment_home"
         android:name="com.vortex.secret.ui.app.home.HomeFragment"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_postCommentFragment"
+            app:destination="@id/postCommentFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/postCommentFragment"
+        android:name="com.vortex.secret.ui.app.comment.PostCommentFragment"
+        android:label="PostCommentFragment">
+        <argument
+            android:name="postId"
+            app:argType="string"/>
+    </fragment>
 </navigation>

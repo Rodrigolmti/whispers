@@ -10,6 +10,9 @@
     <dimen name="radius_medium">8dp</dimen>
     <dimen name="radius_large">10dp</dimen>
 
+    <dimen name="screen_padding_small">8dp</dimen>
+    <dimen name="screen_padding_large">16dp</dimen>
+
     <dimen name="screen_margin_top">@dimen/margin_small</dimen>
     <dimen name="screen_margin_start">@dimen/margin_small</dimen>
     <dimen name="screen_margin_end">@dimen/margin_small</dimen>
