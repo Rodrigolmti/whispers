@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.vortex.secret.R
 import com.vortex.secret.data.model.PostCommentModel
+import com.vortex.secret.ui.custom.CustomCircleView
 import com.vortex.secret.util.BaseAdapter
 import com.vortex.secret.util.BaseViewHolder
 import com.vortex.secret.util.OnClick
@@ -39,8 +40,10 @@ class PostCommentAdapter : BaseAdapter<PostCommentModel>() {
         fun bindData(item: PostCommentModel) {
 
             val textView = itemView.findViewById<TextView>(R.id.tvComment)
+            val cvColor = itemView.findViewById<CustomCircleView>(R.id.cvColor)
 
             item.comment?.let { textView.text = it }
+            cvColor.updateColor(R.color.geyser)
 
             this.item = item
         }

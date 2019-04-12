@@ -31,7 +31,7 @@
         android:id="@+id/cvColor"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:layout_constraintBottom_toTopOf="@id/gdBottom"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/gdStart"
         app:layout_constraintTop_toTopOf="@+id/gdTop"/>
 
