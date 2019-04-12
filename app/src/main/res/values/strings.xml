@@ -21,10 +21,14 @@
     <string name="sign_up_fragment_email_hint">E-mail</string>
     <string name="sign_up_fragment_title">Sign Up</string>
 
+    <string name="home_empty_list_fragment">Ops! Nothing here, \nwhy don\'t you try put some new content?</string>
+
+    <string name="post_comment_error_fragment">Please inform a content to your comment!</string>
+    <string name="post_comment_hint_fragment">Type your comment here!</string>
+
     <string name="bottom_sheet_post_title">New post</string>
     <string name="bottom_sheet_post_body_hint">Type your whisper</string>
     <string name="bottom_sheet_post_color_title">Select one color</string>
     <string name="bottom_sheet_post_button_title">Post</string>
-    <string name="fragment_home_empty_list">Ops! Nothing here, \nwhy don\'t you try put some new content?</string>
 
 </resources>

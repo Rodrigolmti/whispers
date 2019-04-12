@@ -78,8 +78,8 @@ class AuthRepository(
 
                     val userUuid = localPreferences.getString(USER_ID)
                     userUuid.takeIf { it != NO_VALUE }?.let {
-                        continuation.resume(Result.Success(true))
                         UserSession.setupUser(it)
+                        continuation.resume(Result.Success(true))
                     } ?: run {
                         continuation.resume(Result.Success(false))
                     }
