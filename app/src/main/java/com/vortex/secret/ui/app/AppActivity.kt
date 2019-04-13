@@ -13,15 +13,29 @@ import com.vortex.secret.util.extensions.showSnackBar
 import kotlinx.android.synthetic.main.activity_app.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
+const val NAVIGATION_HOME = "fragment_home"
+
 class AppActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<AppViewModel>()
+    private var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app)
 
-        nv.setupWithNavController(findNavController(R.id.nh))
+        val navController = findNavController(R.id.nh)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.label) {
+                NAVIGATION_HOME -> {
+                    controlMenuVisibility(true)
+                }
+                else -> {
+                    controlMenuVisibility(false)
+                }
+            }
+        }
+        nv.setupWithNavController(navController)
 
         viewModel.likeResponseErrorLiveData.observe(this, Observer {
             it.message?.let { message -> window.decorView.rootView.showSnackBar(message) }
@@ -37,6 +51,7 @@ class AppActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.app_menu, menu)
+        this.menu = menu
         return true
     }
 
@@ -49,5 +64,13 @@ class AppActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    private fun controlMenuVisibility(visible: Boolean) {
+        menu?.let {
+            for (i in 0..(it.size() - 1)) {
+                it.getItem(i).isVisible = visible
+            }
+        }
     }
 }
