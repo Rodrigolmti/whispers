@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.vortex.secret.R
 import com.vortex.secret.ui.app.home.adapter.PostAdapter
 import com.vortex.secret.util.exceptions.EmptyDataError
+import com.vortex.secret.util.exceptions.NetworkError
 import com.vortex.secret.util.extensions.gone
 import com.vortex.secret.util.extensions.showSnackBar
 import com.vortex.secret.util.extensions.visible
@@ -43,10 +44,10 @@ class HomeFragment : Fragment() {
         viewModel.updatePostLiveDate.observe(this, Observer {
             it?.let { posts ->
                 if (posts.isNotEmpty()) {
-                    controlErrorVisibility(true)
+                    controlErrorVisibility(false)
                     adapter.addItems(posts)
                 } else {
-                    controlErrorVisibility(false)
+                    controlErrorVisibility(true)
                     adapter.clearData()
                 }
             }
@@ -55,7 +56,11 @@ class HomeFragment : Fragment() {
         viewModel.errorLiveData.observe(this, Observer { error ->
             when (error) {
                 is EmptyDataError -> {
-                    controlErrorVisibility(hideError = false)
+                    controlErrorVisibility(showError = true)
+                }
+                is NetworkError -> {
+                    view.showSnackBar(getString(R.string.general_error_connection))
+                    controlErrorVisibility(showError = true)
                 }
                 else -> {
                     error.message?.let { view.showSnackBar(it) }
@@ -65,7 +70,7 @@ class HomeFragment : Fragment() {
 
         viewModel.loadingLiveData.observe(this, Observer { isLoading ->
             if (isLoading) {
-                controlErrorVisibility(true)
+                controlErrorVisibility(false)
                 ltLoading.visible()
                 rvPosts.gone()
             } else {
@@ -89,13 +94,13 @@ class HomeFragment : Fragment() {
         rvPosts.adapter = adapter
     }
 
-    private fun controlErrorVisibility(hideError: Boolean) {
-        if (hideError) {
-            tvError.gone()
-            ivError.gone()
-        } else {
+    private fun controlErrorVisibility(showError: Boolean) {
+        if (showError) {
             tvError.visible()
             ivError.visible()
+        } else {
+            tvError.gone()
+            ivError.gone()
         }
     }
 }

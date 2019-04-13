@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.vortex.secret.R
 import com.vortex.secret.ui.custom.bottom_sheet.PostBottomSheet
+import com.vortex.secret.util.exceptions.NetworkError
 import com.vortex.secret.util.extensions.showSnackBar
 import kotlinx.android.synthetic.main.activity_app.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -37,8 +38,15 @@ class AppActivity : AppCompatActivity() {
         }
         nv.setupWithNavController(navController)
 
-        viewModel.likeResponseErrorLiveData.observe(this, Observer {
-            it.message?.let { message -> window.decorView.rootView.showSnackBar(message) }
+        viewModel.likeResponseErrorLiveData.observe(this, Observer { error ->
+            when (error) {
+                is NetworkError -> {
+                    window.decorView.rootView.showSnackBar(getString(R.string.general_error_connection))
+                }
+                else -> {
+                    error.message?.let { message -> window.decorView.rootView.showSnackBar(message) }
+                }
+            }
         })
 
         viewModel.likeResponseLiveData.observe(this, Observer { success ->

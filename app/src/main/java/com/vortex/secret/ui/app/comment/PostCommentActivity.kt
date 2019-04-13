@@ -9,11 +9,14 @@ import com.vortex.secret.R
 import com.vortex.secret.data.model.PostCommentModel
 import com.vortex.secret.data.model.PostModel
 import com.vortex.secret.ui.app.home.adapter.PostCommentAdapter
+import com.vortex.secret.util.exceptions.NetworkError
 import com.vortex.secret.util.extensions.gone
 import com.vortex.secret.util.extensions.showSnackBar
 import com.vortex.secret.util.extensions.visible
 import kotlinx.android.synthetic.main.activity_post_comment.*
 import org.koin.android.viewmodel.ext.android.viewModel
+
+const val POST_ID = "postId"
 
 class PostCommentActivity : AppCompatActivity() {
 
@@ -37,7 +40,7 @@ class PostCommentActivity : AppCompatActivity() {
         adapter = PostCommentAdapter()
         rvComments.adapter = adapter
 
-        intent.getStringExtra("postId")?.let {
+        intent.getStringExtra(POST_ID)?.let {
             viewModel.getPostById(it)
         }
 
@@ -62,7 +65,14 @@ class PostCommentActivity : AppCompatActivity() {
         })
 
         viewModel.errorLiveData.observe(this, Observer { error ->
-            error.message?.let { window.decorView.rootView.showSnackBar(it) }
+            when (error) {
+                is NetworkError -> {
+                    window.decorView.rootView.showSnackBar(getString(R.string.general_error_connection))
+                }
+                else -> {
+                    error.message?.let { message -> window.decorView.rootView.showSnackBar(message) }
+                }
+            }
         })
 
         viewModel.loadingLiveData.observe(this, Observer { isLoading ->
@@ -78,9 +88,7 @@ class PostCommentActivity : AppCompatActivity() {
                 tvBody.visible()
             }
         })
-
     }
-
 
     private fun validateField(): Boolean {
         if (etComment.text.isEmpty()) {

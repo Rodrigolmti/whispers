@@ -7,7 +7,9 @@ import com.vortex.secret.data.local.ILocalPreferences
 import com.vortex.secret.data.local.NO_VALUE
 import com.vortex.secret.data.local.USER_ID
 import com.vortex.secret.data.remote.IFirestoreManager
+import com.vortex.secret.data.remote.NetworkManager
 import com.vortex.secret.util.Result
+import com.vortex.secret.util.exceptions.NetworkError
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.Continuation
@@ -34,7 +36,8 @@ interface IAuthRepository {
 
 class AuthRepository(
     private val firestoreManager: IFirestoreManager,
-    private val localPreferences: ILocalPreferences
+    private val localPreferences: ILocalPreferences,
+    private val networkManager: NetworkManager
 ) : IAuthRepository {
 
     override suspend fun signUpUserWithEmail(email: String, password: String): Result<Boolean> {
@@ -42,10 +45,14 @@ class AuthRepository(
             suspendCoroutine<Result<Boolean>> { continuation ->
                 try {
 
-                    firestoreManager.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-                        handleAuthResult(task, continuation)
-                    }.addOnFailureListener { error ->
-                        continuation.resume(Result.Error(error))
+                    if (!networkManager.isOnline()) {
+                        continuation.resume(Result.Error(NetworkError()))
+                    } else {
+                        firestoreManager.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                            handleAuthResult(task, continuation)
+                        }.addOnFailureListener { error ->
+                            continuation.resume(Result.Error(error))
+                        }
                     }
 
                 } catch (error: Exception) {
@@ -60,10 +67,14 @@ class AuthRepository(
             suspendCoroutine<Result<Boolean>> { continuation ->
                 try {
 
-                    firestoreManager.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-                        handleAuthResult(task, continuation)
-                    }.addOnFailureListener { error ->
-                        continuation.resume(Result.Error(error))
+                    if (!networkManager.isOnline()) {
+                        continuation.resume(Result.Error(NetworkError()))
+                    } else {
+                        firestoreManager.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                            handleAuthResult(task, continuation)
+                        }.addOnFailureListener { error ->
+                            continuation.resume(Result.Error(error))
+                        }
                     }
 
                 } catch (error: Exception) {

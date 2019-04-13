@@ -6,7 +6,9 @@
     <string name="bottom_nav_highlights_title">Highlights</string>
     <string name="bottom_nav_settings_title">Settings</string>
 
+    <string name="general_error_connection">Please check your internet connection and try again!</string>
     <string name="general_error">Ops! Something went wrong, please try again!</string>
+
     <string name="general_email_error">Please inform your e-mail!</string>
     <string name="general_email_invalid">Please inform a valid e-mail!</string>
     <string name="general_password_invalid">Please inform a valid password with at least 6 digits!</string>

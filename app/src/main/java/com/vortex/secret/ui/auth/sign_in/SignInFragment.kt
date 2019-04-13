@@ -11,12 +11,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.vortex.secret.R
 import com.vortex.secret.ui.app.AppActivity
+import com.vortex.secret.util.exceptions.NetworkError
 import com.vortex.secret.util.extensions.gone
+import com.vortex.secret.util.extensions.paintText
 import com.vortex.secret.util.extensions.showSnackBar
+import com.vortex.secret.util.extensions.visible
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import org.koin.android.viewmodel.ext.android.viewModel
-import com.vortex.secret.util.extensions.paintText
-import com.vortex.secret.util.extensions.visible
 
 class SignInFragment : Fragment() {
 
@@ -70,8 +71,15 @@ class SignInFragment : Fragment() {
             }
         })
 
-        viewModel.errorSignInMutableLiveDate.observe(this, Observer {
-            it.message?.let { message -> view.showSnackBar(message) }
+        viewModel.errorSignInMutableLiveDate.observe(this, Observer { error ->
+            when (error) {
+                is NetworkError -> {
+                    view.showSnackBar(getString(R.string.general_error_connection))
+                }
+                else -> {
+                    error.message?.let { message -> view.showSnackBar(message) }
+                }
+            }
         })
     }
 

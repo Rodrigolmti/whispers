@@ -8,9 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.vortex.secret.R
 import com.vortex.secret.ui.app.AppActivity
+import com.vortex.secret.util.exceptions.NetworkError
 import com.vortex.secret.util.extensions.gone
 import com.vortex.secret.util.extensions.showSnackBar
 import com.vortex.secret.util.extensions.visible
@@ -64,8 +64,15 @@ class SignUpFragment : Fragment() {
             }
         })
 
-        viewModel.errorSignUpLiveDate.observe(this, Observer {
-            it.message?.let { message -> view.showSnackBar(message) }
+        viewModel.errorSignUpLiveDate.observe(this, Observer { error ->
+            when (error) {
+                is NetworkError -> {
+                    view.showSnackBar(getString(R.string.general_error_connection))
+                }
+                else -> {
+                    error.message?.let { message -> view.showSnackBar(message) }
+                }
+            }
         })
     }
 

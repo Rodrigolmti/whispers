@@ -4,6 +4,7 @@ import com.vortex.secret.data.local.ILocalPreferences
 import com.vortex.secret.data.local.LocalPreferences
 import com.vortex.secret.data.remote.FirestoreManager
 import com.vortex.secret.data.remote.IFirestoreManager
+import com.vortex.secret.data.remote.NetworkManager
 import com.vortex.secret.data.repository.AuthRepository
 import com.vortex.secret.data.repository.IAuthRepository
 import com.vortex.secret.data.repository.IPostRepository
@@ -20,10 +21,11 @@ import org.koin.dsl.module.Module
 import org.koin.dsl.module.module
 
 val dataModule: Module = module {
-    single { AuthRepository(get(), get()) as IAuthRepository }
+    single { AuthRepository(get(), get(), get()) as IAuthRepository }
     single { LocalPreferences(get()) as ILocalPreferences }
-    single { PostRepository(get()) as IPostRepository }
+    single { PostRepository(get(), get()) as IPostRepository }
     single { FirestoreManager() as IFirestoreManager }
+    factory { NetworkManager(get()) }
 }
 
 val viewModelModule: Module = module {
