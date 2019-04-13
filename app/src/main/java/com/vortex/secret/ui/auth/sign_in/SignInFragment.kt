@@ -12,10 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.vortex.secret.R
 import com.vortex.secret.ui.app.AppActivity
 import com.vortex.secret.util.exceptions.NetworkError
-import com.vortex.secret.util.extensions.gone
-import com.vortex.secret.util.extensions.paintText
-import com.vortex.secret.util.extensions.showSnackBar
-import com.vortex.secret.util.extensions.visible
+import com.vortex.secret.util.extensions.*
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -40,6 +37,7 @@ class SignInFragment : Fragment() {
 
         btSignIn.setOnClickListener {
             if (validateFields()) {
+                view.hideKeyboard()
                 viewModel.signInUser(etEmail.text.toString(), etPassword.text.toString())
             }
         }

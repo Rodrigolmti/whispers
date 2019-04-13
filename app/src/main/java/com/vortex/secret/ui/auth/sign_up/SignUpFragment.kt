@@ -12,6 +12,7 @@ import com.vortex.secret.R
 import com.vortex.secret.ui.app.AppActivity
 import com.vortex.secret.util.exceptions.NetworkError
 import com.vortex.secret.util.extensions.gone
+import com.vortex.secret.util.extensions.hideKeyboard
 import com.vortex.secret.util.extensions.showSnackBar
 import com.vortex.secret.util.extensions.visible
 import kotlinx.android.synthetic.main.fragment_sign_up.*
@@ -33,6 +34,7 @@ class SignUpFragment : Fragment() {
 
         btSignUp.setOnClickListener {
             if (validateFields()) {
+                view.hideKeyboard()
                 viewModel.signUpUser(etEmail.text.toString(), etPassword.text.toString())
             }
         }
