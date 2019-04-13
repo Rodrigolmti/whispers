@@ -28,6 +28,8 @@ interface IAuthRepository {
     ): Result<Boolean>
 
     suspend fun verifyUserSession(): Result<Boolean>
+
+    suspend fun logoutUser(): Result<Boolean>
 }
 
 class AuthRepository(
@@ -83,6 +85,23 @@ class AuthRepository(
                     } ?: run {
                         continuation.resume(Result.Success(false))
                     }
+
+                } catch (error: Exception) {
+                    continuation.resumeWithException(error)
+                }
+            }
+        }
+    }
+
+    override suspend fun logoutUser(): Result<Boolean> {
+        return withContext(IO) {
+            suspendCoroutine<Result<Boolean>> { continuation ->
+                try {
+
+                    UserSession.removeUser()
+                    firestoreManager.signOut()
+                    localPreferences.clearKey(USER_ID)
+                    continuation.resume(Result.Success(true))
 
                 } catch (error: Exception) {
                     continuation.resumeWithException(error)

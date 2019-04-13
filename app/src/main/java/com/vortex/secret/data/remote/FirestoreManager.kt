@@ -16,6 +16,8 @@ interface IFirestoreManager {
 
     fun signInWithEmailAndPassword(email: String, password: String): Task<AuthResult>
 
+    fun signOut()
+
     fun getPostsByDate(): Task<QuerySnapshot>
 
     fun addPost(postModel: PostModel): Task<DocumentReference>
@@ -31,51 +33,45 @@ interface IFirestoreManager {
 
 class FirestoreManager : IFirestoreManager {
 
-    override fun createUserWithEmailAndPassword(email: String, password: String): Task<AuthResult> {
-        return FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-    }
+    override fun createUserWithEmailAndPassword(email: String, password: String): Task<AuthResult> =
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
 
-    override fun signInWithEmailAndPassword(email: String, password: String): Task<AuthResult> {
-        return FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-    }
+    override fun signInWithEmailAndPassword(email: String, password: String): Task<AuthResult> =
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
 
-    override fun getPostsByDate(): Task<QuerySnapshot> {
-        return FirebaseFirestore.getInstance().collection(POST_COLLECTION)
+    override fun signOut() = FirebaseAuth.getInstance().signOut()
+
+    override fun getPostsByDate(): Task<QuerySnapshot> =
+        FirebaseFirestore.getInstance().collection(POST_COLLECTION)
             .orderBy(ORDER_BY_PARAM, Query.Direction.DESCENDING)
             .get()
-    }
 
-    override fun addPost(postModel: PostModel): Task<DocumentReference> {
-        return FirebaseFirestore.getInstance()
+    override fun addPost(postModel: PostModel): Task<DocumentReference> =
+        FirebaseFirestore.getInstance()
             .collection(POST_COLLECTION)
             .add(mapPostModelToFirebaseDocument(postModel))
-    }
 
-    override fun updatePostLike(postModel: PostModel): Task<Void> {
-        return FirebaseFirestore.getInstance()
+    override fun updatePostLike(postModel: PostModel): Task<Void> =
+        FirebaseFirestore.getInstance()
             .collection(POST_COLLECTION)
             .document(postModel.id ?: "")
             .set(mapPostModelToFirebaseDocument(postModel), SetOptions.merge())
-    }
 
-    override fun updatePostComment(postModel: PostModel): Task<Void> {
-        return FirebaseFirestore.getInstance()
+    override fun updatePostComment(postModel: PostModel): Task<Void> =
+        FirebaseFirestore.getInstance()
             .collection(POST_COLLECTION)
             .document(postModel.id ?: "")
             .set(mapPostModelToFirebaseDocument(postModel), SetOptions.merge())
-    }
 
-    override fun deletePost(postModel: PostModel): Task<Void> {
-        return FirebaseFirestore.getInstance()
+    override fun deletePost(postModel: PostModel): Task<Void> =
+        FirebaseFirestore.getInstance()
             .collection(POST_COLLECTION)
             .document(postModel.id ?: "")
             .delete()
-    }
 
-    override fun getPostById(postId: String): Task<DocumentSnapshot> {
-        return FirebaseFirestore.getInstance()
+    override fun getPostById(postId: String): Task<DocumentSnapshot> =
+        FirebaseFirestore.getInstance()
             .collection(POST_COLLECTION)
             .document(postId)
             .get()
-    }
 }

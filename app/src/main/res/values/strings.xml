@@ -2,6 +2,10 @@
 
     <string name="app_name">Whispers</string>
 
+    <string name="bottom_nav_home_title">Home</string>
+    <string name="bottom_nav_highlights_title">Highlights</string>
+    <string name="bottom_nav_settings_title">Settings</string>
+
     <string name="general_error">Ops! Something went wrong, please try again!</string>
     <string name="general_email_error">Please inform your e-mail!</string>
     <string name="general_email_invalid">Please inform a valid e-mail!</string>
@@ -30,5 +34,6 @@
     <string name="bottom_sheet_post_body_hint">Type your whisper</string>
     <string name="bottom_sheet_post_color_title">Select one color</string>
     <string name="bottom_sheet_post_button_title">Post</string>
+    <string name="settings_fragment_logout_label">Logout</string>
 
 </resources>

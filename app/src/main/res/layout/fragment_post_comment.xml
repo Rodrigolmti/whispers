@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_bottom_sheet"
+    android:background="@color/white"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
     <com.airbnb.lottie.LottieAnimationView
@@ -68,6 +68,7 @@
         android:id="@+id/viewInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="4dp"
         android:padding="@dimen/screen_padding_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,8 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/screen_view_distance_small"
             android:layout_toStartOf="@+id/ivSend"
-            android:hint="@string/post_comment_hint_fragment"
-            android:lines="2"/>
+            android:hint="@string/post_comment_hint_fragment"/>
 
         <ImageView
             android:id="@+id/ivSend"

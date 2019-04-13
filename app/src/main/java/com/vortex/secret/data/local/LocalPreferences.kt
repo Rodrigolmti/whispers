@@ -14,21 +14,29 @@ interface ILocalPreferences {
     fun putString(key: String, value: String)
 
     fun getString(key: String) : String
+
+    fun clearKey(key: String)
 }
 
-class LocalPreferences(private val context: Context) : ILocalPreferences {
+class LocalPreferences(context: Context) : ILocalPreferences {
+
+    private val preferences = context.getSharedPreferences(FILENAME, MODE_PRIVATE)
 
     override fun getString(key: String): String {
-        val preferences = context.getSharedPreferences(FILENAME, MODE_PRIVATE)
         var string = preferences.getString(key.encrypt(), NO_VALUE)
         if (string != NO_VALUE) { string = string.decrypt() }
         return string
     }
 
     override fun putString(key: String, value: String) {
-        val preferences = context.getSharedPreferences(FILENAME, MODE_PRIVATE)
         val editor = preferences.edit()
         editor.putString(key.encrypt(), value.encrypt())
+        editor.apply()
+    }
+
+    override fun clearKey(key: String) {
+        val editor = preferences.edit()
+        editor.remove(key.encrypt())
         editor.apply()
     }
 }

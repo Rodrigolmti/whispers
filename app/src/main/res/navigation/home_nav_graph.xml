@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/navigationHome">
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/navigationHome"
         android:label="fragment_home"
         android:name="com.vortex.secret.ui.app.home.HomeFragment"
         tools:layout="@layout/fragment_home">
@@ -22,4 +22,10 @@
             android:name="postId"
             app:argType="string"/>
     </fragment>
+    <fragment
+        android:id="@+id/navigationSettings"
+        android:label="settings_fragment"
+        android:name="com.vortex.secret.ui.app.settings.SettingsFragment"
+        tools:layout="@layout/fragment_settings"/>
+
 </navigation>
