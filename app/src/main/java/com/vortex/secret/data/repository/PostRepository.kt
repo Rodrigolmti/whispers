@@ -213,8 +213,10 @@ class PostRepository(
                                     }
 
                                     updatedPostModel.likesCount = updatedPostModel.likes.size
-
                                     firestoreManager.updatePostLike(updatedPostModel).addOnSuccessListener {
+                                        postsMutableLiveData.value?.indexOf(postModel)?.let { index ->
+                                            postsMutableLiveData.value?.set(index, updatedPostModel)
+                                        }
                                         postsMutableLiveData.postValue(postsMutableLiveData.value)
                                         continuation.resume(Result.Success(true))
                                     }.addOnFailureListener { error ->

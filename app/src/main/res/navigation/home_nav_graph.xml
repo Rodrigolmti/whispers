@@ -10,9 +10,6 @@
         android:label="fragment_home"
         android:name="com.vortex.secret.ui.app.home.HomeFragment"
         tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_navigationHome_to_postCommentActivity"
-            app:destination="@id/postCommentActivity"/>
         <argument
             android:defaultValue="false"
             android:name="highlight"

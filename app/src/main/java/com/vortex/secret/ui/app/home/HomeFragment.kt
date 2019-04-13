@@ -1,14 +1,16 @@
 package com.vortex.secret.ui.app.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vortex.secret.R
+import com.vortex.secret.ui.app.comment.POST_ID
+import com.vortex.secret.ui.app.comment.PostCommentActivity
 import com.vortex.secret.ui.app.home.adapter.PostAdapter
 import com.vortex.secret.util.exceptions.EmptyDataError
 import com.vortex.secret.util.exceptions.NetworkError
@@ -92,7 +94,9 @@ class HomeFragment : Fragment() {
             onClickLike = { viewModel.updatePostLike(it) },
             onClickRemove = { viewModel.removePost(it) },
             onClickComment = { postModel ->
-                postModel.id?.let { findNavController().navigate(HomeFragmentDirections.actionNavigationHomeToPostCommentActivity(it)) }
+                val intent = Intent(context, PostCommentActivity::class.java)
+                intent.putExtra(POST_ID, postModel.id)
+                startActivity(intent)
             }
         )
         rvPosts.adapter = adapter
