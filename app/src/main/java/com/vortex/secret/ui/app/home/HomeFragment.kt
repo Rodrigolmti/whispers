@@ -22,6 +22,7 @@ class HomeFragment : Fragment() {
 
     private val viewModel by viewModel<HomeViewModel>()
     private lateinit var adapter: PostAdapter
+    private var highlight = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,11 +36,14 @@ class HomeFragment : Fragment() {
 
         setupAdapter()
 
-        swipeRefresh.setOnRefreshListener {
-            viewModel.updatePosts()
+        arguments?.let { bundle ->
+            highlight = HomeFragmentArgs.fromBundle(bundle).highlight
+            viewModel.updatePosts(highlight)
         }
 
-        lifecycle.addObserver(viewModel)
+        swipeRefresh.setOnRefreshListener {
+            viewModel.updatePosts(highlight)
+        }
 
         viewModel.updatePostLiveDate.observe(this, Observer {
             it?.let { posts ->

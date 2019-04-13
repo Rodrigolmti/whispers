@@ -13,6 +13,10 @@
         <action
             android:id="@+id/action_navigationHome_to_postCommentActivity"
             app:destination="@id/postCommentActivity"/>
+        <argument
+            android:defaultValue="false"
+            android:name="highlight"
+            app:argType="boolean"/>
     </fragment>
     <fragment
         android:id="@+id/navigationSettings"
@@ -27,5 +31,14 @@
             android:name="postId"
             app:argType="string"/>
     </activity>
+    <fragment
+        android:id="@+id/navigationHighlights"
+        android:label="HomeFragment"
+        android:name="com.vortex.secret.ui.app.home.HomeFragment">
+        <argument
+            android:defaultValue="true"
+            android:name="highlight"
+            app:argType="boolean"/>
+    </fragment>
 
 </navigation>

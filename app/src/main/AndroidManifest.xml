@@ -30,7 +30,7 @@
         <activity
             android:name=".ui.app.comment.PostCommentActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme.No.ActionBar"/>
 
     </application>
 

@@ -14,7 +14,6 @@ import com.vortex.secret.util.BaseAdapter
 import com.vortex.secret.util.BaseViewHolder
 import com.vortex.secret.util.OnClick
 import com.vortex.secret.util.extensions.gone
-import com.vortex.secret.util.extensions.showSnackBar
 import com.vortex.secret.util.extensions.visible
 
 class PostAdapter(
@@ -89,7 +88,7 @@ class PostAdapter(
             item.body?.let { textView.text = it }
 
             tvComments.text = item.comments.size.toString()
-            tvLikes.text = item.likes.size.toString()
+            tvLikes.text = item.likesCount.toString()
 
             ivComments.setOnClickListener { onClickComment(item) }
             ivLikes.setOnClickListener { onClickLike(item) }

@@ -7,7 +7,8 @@ import com.google.firebase.firestore.*
 import com.vortex.secret.data.mappers.mapPostModelToFirebaseDocument
 import com.vortex.secret.data.model.PostModel
 
-const val ORDER_BY_PARAM = "createdAt"
+const val ORDER_BY_DATE_PARAM = "createdAt"
+const val ORDER_BY_LIKE_PARAM = "likesCount"
 const val POST_COLLECTION = "posts"
 
 interface IFirestoreManager {
@@ -19,6 +20,8 @@ interface IFirestoreManager {
     fun signOut()
 
     fun getPostsByDate(): Task<QuerySnapshot>
+
+    fun getHighlightedPosts(): Task<QuerySnapshot>
 
     fun addPost(postModel: PostModel): Task<DocumentReference>
 
@@ -43,7 +46,12 @@ class FirestoreManager : IFirestoreManager {
 
     override fun getPostsByDate(): Task<QuerySnapshot> =
         FirebaseFirestore.getInstance().collection(POST_COLLECTION)
-            .orderBy(ORDER_BY_PARAM, Query.Direction.DESCENDING)
+            .orderBy(ORDER_BY_DATE_PARAM, Query.Direction.DESCENDING)
+            .get()
+
+    override fun getHighlightedPosts(): Task<QuerySnapshot> =
+        FirebaseFirestore.getInstance().collection(POST_COLLECTION)
+            .orderBy(ORDER_BY_LIKE_PARAM, Query.Direction.DESCENDING).limit(10)
             .get()
 
     override fun addPost(postModel: PostModel): Task<DocumentReference> =

@@ -1,13 +1,13 @@
 package com.vortex.secret.ui.app.home
 
-import androidx.lifecycle.*
-import com.vortex.secret.data.model.PostCommentModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.vortex.secret.data.model.PostModel
 import com.vortex.secret.data.repository.IPostRepository
 import com.vortex.secret.util.BaseViewModel
 import com.vortex.secret.util.Result
 
-class HomeViewModel(private val repository: IPostRepository) : BaseViewModel(), LifecycleObserver {
+class HomeViewModel(private val repository: IPostRepository) : BaseViewModel() {
 
     private val _updatePostMutableLiveDate = repository.postsMutableLiveData
     private val _errorMutableLiveData: MutableLiveData<Throwable> = MutableLiveData()
@@ -20,13 +20,14 @@ class HomeViewModel(private val repository: IPostRepository) : BaseViewModel(), 
     val loadingLiveData: LiveData<Boolean>
         get() = _loadingMutableLiveData
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun updatePosts() {
+    fun updatePosts(highlight: Boolean) {
         launchData {
             _loadingMutableLiveData.value = true
-            val response = repository.updatePosts()
+            val response = if (highlight) repository.updatePostsHighlights() else repository.updatePosts()
             when (response) {
-                is Result.Error -> { _errorMutableLiveData.value = response.error }
+                is Result.Error -> {
+                    _errorMutableLiveData.value = response.error
+                }
             }
             _loadingMutableLiveData.value = false
         }
@@ -36,7 +37,9 @@ class HomeViewModel(private val repository: IPostRepository) : BaseViewModel(), 
         launchData {
             val response = repository.updatePostLike(postModel)
             when (response) {
-                is Result.Error -> { _errorMutableLiveData.value = response.error }
+                is Result.Error -> {
+                    _errorMutableLiveData.value = response.error
+                }
             }
         }
     }
@@ -45,7 +48,9 @@ class HomeViewModel(private val repository: IPostRepository) : BaseViewModel(), 
         launchData {
             val response = repository.deletePost(postModel)
             when (response) {
-                is Result.Error -> { _errorMutableLiveData.value = response.error }
+                is Result.Error -> {
+                    _errorMutableLiveData.value = response.error
+                }
             }
         }
     }

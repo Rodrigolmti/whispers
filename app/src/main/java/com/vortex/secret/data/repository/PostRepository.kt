@@ -25,6 +25,8 @@ interface IPostRepository {
 
     suspend fun updatePosts(): Result<Boolean>
 
+    suspend fun updatePostsHighlights(): Result<Boolean>
+
     suspend fun addPost(postModel: PostModel): Result<Boolean>
 
     suspend fun updatePostComment(postModel: PostModel, postCommentModel: PostCommentModel): Result<PostModel>
@@ -56,6 +58,34 @@ class PostRepository(
                         continuation.resume(Result.Error(NetworkError()))
                     } else {
                         firestoreManager.getPostsByDate().addOnSuccessListener { result ->
+                            val posts = mapFirebaseDocumentToPostMutableList(result)
+                            posts.takeIf { it.isEmpty() }?.let {
+                                continuation.resume(Result.Error(EmptyDataError()))
+                            } ?: run {
+                                continuation.resume(Result.Success(true))
+                                postsMutableLiveData.value = posts
+                            }
+                        }.addOnFailureListener { error ->
+                            continuation.resume(Result.Error(error))
+                        }
+                    }
+
+                } catch (error: Exception) {
+                    continuation.resumeWithException(error)
+                }
+            }
+        }
+    }
+
+    override suspend fun updatePostsHighlights(): Result<Boolean> {
+        return withContext(Dispatchers.IO) {
+            suspendCoroutine<Result<Boolean>> { continuation ->
+                try {
+
+                    if (!networkManager.isOnline()) {
+                        continuation.resume(Result.Error(NetworkError()))
+                    } else {
+                        firestoreManager.getHighlightedPosts().addOnSuccessListener { result ->
                             val posts = mapFirebaseDocumentToPostMutableList(result)
                             posts.takeIf { it.isEmpty() }?.let {
                                 continuation.resume(Result.Error(EmptyDataError()))
@@ -161,28 +191,44 @@ class PostRepository(
                     if (!networkManager.isOnline()) {
                         continuation.resume(Result.Error(NetworkError()))
                     } else {
-                        val authorId = UserSession.userId
-                        var removeIndex = -1
 
-                        postModel.likes.forEachIndexed { index, postLike ->
-                            if (postLike.authorId == authorId) {
-                                removeIndex = index
-                            }
-                        }
+                        postModel.id?.let { postId ->
+                            firestoreManager.getPostById(postId).addOnSuccessListener { result ->
+                                val updatedPostModel = mapFirebaseDocumentToPostModel(result)
+                                updatedPostModel?.let {
 
-                        if (removeIndex != -1) {
-                            postModel.likes.removeAt(removeIndex)
-                        } else {
-                            postModel.likes.add(PostLikeModel(authorId))
-                        }
+                                    val authorId = UserSession.userId
+                                    var removeIndex = -1
 
-                        postModel.id?.let {
-                            firestoreManager.updatePostLike(postModel).addOnSuccessListener {
-                                postsMutableLiveData.postValue(postsMutableLiveData.value)
-                                continuation.resume(Result.Success(true))
+                                    updatedPostModel.likes.forEachIndexed { index, postLike ->
+                                        if (postLike.authorId == authorId) {
+                                            removeIndex = index
+                                        }
+                                    }
+
+                                    if (removeIndex != -1) {
+                                        updatedPostModel.likes.removeAt(removeIndex)
+                                    } else {
+                                        updatedPostModel.likes.add(PostLikeModel(authorId))
+                                    }
+
+                                    updatedPostModel.likesCount = updatedPostModel.likes.size
+
+                                    firestoreManager.updatePostLike(updatedPostModel).addOnSuccessListener {
+                                        postsMutableLiveData.postValue(postsMutableLiveData.value)
+                                        continuation.resume(Result.Success(true))
+                                    }.addOnFailureListener { error ->
+                                        continuation.resume(Result.Error(error))
+                                    }
+
+                                } ?: run {
+                                    continuation.resume(Result.Error(EmptyDataError()))
+                                }
                             }.addOnFailureListener { error ->
                                 continuation.resume(Result.Error(error))
                             }
+                        } ?: run {
+                            continuation.resume(Result.Error(EmptyDataError()))
                         }
                     }
 
