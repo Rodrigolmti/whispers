@@ -11,6 +11,7 @@ import com.vortex.secret.data.model.PostModel
 import com.vortex.secret.ui.app.home.adapter.PostCommentAdapter
 import com.vortex.secret.util.exceptions.NetworkError
 import com.vortex.secret.util.extensions.gone
+import com.vortex.secret.util.extensions.hideKeyboard
 import com.vortex.secret.util.extensions.showSnackBar
 import com.vortex.secret.util.extensions.visible
 import kotlinx.android.synthetic.main.activity_post_comment.*
@@ -31,6 +32,7 @@ class PostCommentActivity : AppCompatActivity() {
         ivSend.setOnClickListener {
             if (validateField()) {
                 val postCommentModel = PostCommentModel(comment = etComment.text.toString())
+                window.decorView.rootView.hideKeyboard()
                 viewModel.updatePostComment(postModel, postCommentModel)
                 etComment.text = null
             }
