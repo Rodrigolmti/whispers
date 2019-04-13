@@ -20,14 +20,17 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.auth.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.No.ActionBar"/>
+        <activity
             android:name=".ui.app.AppActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
         <activity
-            android:name=".ui.auth.LoginActivity"
-
+            android:name=".ui.app.comment.PostCommentActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.No.ActionBar"/>
+            android:theme="@style/AppTheme"/>
 
     </application>
 

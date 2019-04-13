@@ -83,7 +83,7 @@ class HomeFragment : Fragment() {
             onClickLike = { viewModel.updatePostLike(it) },
             onClickRemove = { viewModel.removePost(it) },
             onClickComment = { postModel ->
-                postModel.id?.let { findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToPostCommentFragment(it)) }
+                postModel.id?.let { findNavController().navigate(HomeFragmentDirections.actionNavigationHomeToPostCommentActivity(it)) }
             }
         )
         rvPosts.adapter = adapter

@@ -1,11 +1,8 @@
 package com.vortex.secret.ui.app.comment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vortex.secret.R
@@ -15,24 +12,18 @@ import com.vortex.secret.ui.app.home.adapter.PostCommentAdapter
 import com.vortex.secret.util.extensions.gone
 import com.vortex.secret.util.extensions.showSnackBar
 import com.vortex.secret.util.extensions.visible
-import kotlinx.android.synthetic.main.fragment_post_comment.*
+import kotlinx.android.synthetic.main.activity_post_comment.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class PostCommentFragment : Fragment() {
+class PostCommentActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<PostCommentViewModel>()
     private lateinit var adapter: PostCommentAdapter
     private lateinit var postModel: PostModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_post_comment, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_post_comment)
 
         ivSend.setOnClickListener {
             if (validateField()) {
@@ -42,13 +33,12 @@ class PostCommentFragment : Fragment() {
             }
         }
 
-        rvComments.layoutManager = LinearLayoutManager(context)
+        rvComments.layoutManager = LinearLayoutManager(this)
         adapter = PostCommentAdapter()
         rvComments.adapter = adapter
 
-        arguments?.let { args ->
-            val arguments = PostCommentFragmentArgs.fromBundle(args)
-            viewModel.getPostById(arguments.postId)
+        intent.getStringExtra("postId")?.let {
+            viewModel.getPostById(it)
         }
 
         viewModel.responsePostModelLiveData.observe(this, Observer {
@@ -57,9 +47,9 @@ class PostCommentFragment : Fragment() {
                 postModel = post
 
                 post.color?.let { color ->
-                    tvBody.setBackgroundColor(ContextCompat.getColor(view.context, color))
+                    tvBody.setBackgroundColor(ContextCompat.getColor(this, color))
                 } ?: run {
-                    tvBody.setBackgroundColor(ContextCompat.getColor(view.context, R.color.colorPrimary))
+                    tvBody.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 }
 
                 post.body?.let { text ->
@@ -72,7 +62,7 @@ class PostCommentFragment : Fragment() {
         })
 
         viewModel.errorLiveData.observe(this, Observer { error ->
-            error.message?.let { view.showSnackBar(it) }
+            error.message?.let { window.decorView.rootView.showSnackBar(it) }
         })
 
         viewModel.loadingLiveData.observe(this, Observer { isLoading ->
@@ -88,11 +78,13 @@ class PostCommentFragment : Fragment() {
                 tvBody.visible()
             }
         })
+
     }
 
-    private fun validateField() : Boolean {
+
+    private fun validateField(): Boolean {
         if (etComment.text.isEmpty()) {
-            view?.showSnackBar(getString(R.string.post_comment_error_fragment))
+            window.decorView.rootView.showSnackBar(getString(R.string.post_comment_error_fragment))
             return false
         }
 

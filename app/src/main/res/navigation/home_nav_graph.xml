@@ -11,21 +11,21 @@
         android:name="com.vortex.secret.ui.app.home.HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_postCommentFragment"
-            app:destination="@id/postCommentFragment"/>
-    </fragment>
-    <fragment
-        android:id="@+id/postCommentFragment"
-        android:name="com.vortex.secret.ui.app.comment.PostCommentFragment"
-        android:label="PostCommentFragment">
-        <argument
-            android:name="postId"
-            app:argType="string"/>
+            android:id="@+id/action_navigationHome_to_postCommentActivity"
+            app:destination="@id/postCommentActivity"/>
     </fragment>
     <fragment
         android:id="@+id/navigationSettings"
         android:label="settings_fragment"
         android:name="com.vortex.secret.ui.app.settings.SettingsFragment"
         tools:layout="@layout/fragment_settings"/>
+    <activity
+        android:id="@+id/postCommentActivity"
+        android:label="PostCommentActivity"
+        android:name="com.vortex.secret.ui.app.comment.PostCommentActivity">
+        <argument
+            android:name="postId"
+            app:argType="string"/>
+    </activity>
 
 </navigation>
