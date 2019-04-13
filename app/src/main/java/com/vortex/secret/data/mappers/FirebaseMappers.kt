@@ -11,7 +11,7 @@ fun mapPostModelToFirebaseDocument(postModel: PostModel): HashMap<String, Any> {
     postModel.body?.let { hashMap["body"] = it }
     postModel.createdAt?.let { hashMap["createdAt"] = it }
     postModel.color?.let { hashMap["color"] = it }
-    postModel.likesCount?.let { hashMap["likesCount"] = it }
+    hashMap["likesCount"] = postModel.likesCount
     hashMap["likes"] = postModel.likes
     hashMap["comments"] = postModel.comments
     return hashMap

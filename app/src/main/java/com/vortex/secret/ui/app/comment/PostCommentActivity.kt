@@ -1,6 +1,7 @@
 package com.vortex.secret.ui.app.comment
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -28,6 +29,12 @@ class PostCommentActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_comment)
+
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setDisplayShowHomeEnabled(true)
+            it.title = ""
+        }
 
         ivSend.setOnClickListener {
             if (validateField()) {
@@ -90,6 +97,15 @@ class PostCommentActivity : AppCompatActivity() {
                 tvBody.visible()
             }
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+            }
+        }
+        return true
     }
 
     private fun validateField(): Boolean {

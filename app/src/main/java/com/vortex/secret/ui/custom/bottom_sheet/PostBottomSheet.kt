@@ -8,11 +8,10 @@ import android.widget.LinearLayout.HORIZONTAL
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vortex.secret.R
 import com.vortex.secret.data.model.PostColor
-import com.vortex.secret.data.model.PostCommentModel
 import com.vortex.secret.data.model.PostModel
 import com.vortex.secret.ui.app.home.adapter.PostColorAdapter
+import com.vortex.secret.util.extensions.showDialog
 import kotlinx.android.synthetic.main.fragment_bottom_sheet_post.*
-import java.util.*
 
 typealias PostEvent = (post: PostModel) -> Unit
 
@@ -70,6 +69,11 @@ class PostBottomSheet : BaseBottomSheet() {
                 postModel.body = etPost.text.toString()
                 postEvent(postModel)
                 dismiss()
+            } else {
+                context?.showDialog(
+                    getString(R.string.general_dialog_title),
+                    getString(R.string.bottom_sheet_post_error_message)
+                )
             }
         }
     }

@@ -8,6 +8,7 @@
 
     <string name="general_error_connection">Please check your internet connection and try again!</string>
     <string name="general_error">Ops! Something went wrong, please try again!</string>
+    <string name="general_dialog_title">Ops!</string>
 
     <string name="general_email_error">Please inform your e-mail!</string>
     <string name="general_email_invalid">Please inform a valid e-mail!</string>
@@ -36,6 +37,8 @@
     <string name="bottom_sheet_post_body_hint">Type your whisper</string>
     <string name="bottom_sheet_post_color_title">Select one color</string>
     <string name="bottom_sheet_post_button_title">Post</string>
+    <string name="bottom_sheet_post_error_message">Please inform a message to your post and select a color!</string>
+
     <string name="settings_fragment_logout_label">Logout</string>
 
 </resources>

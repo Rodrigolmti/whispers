@@ -6,7 +6,7 @@ data class PostModel(
         var createdAt: String? = null,
         var body: String? = null,
         var color: Int? = null,
-        var likesCount: Int? = null,
+        var likesCount: Int = 0,
         var likes: MutableList<PostLikeModel> = mutableListOf(),
         var comments: MutableList<PostCommentModel> = mutableListOf()
 )
