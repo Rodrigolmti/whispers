@@ -5,6 +5,8 @@
     android:layout_width="60dp"
     android:layout_height="60dp"
     android:layout_margin="@dimen/margin_small"
+    android:clipChildren="true"
+    android:foreground="?android:selectableItemBackgroundBorderless"
     android:orientation="vertical">
 
     <com.vortex.secret.ui.custom.CustomCircleView
@@ -21,11 +23,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_action_check"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
         tools:visibility="visible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,9 +22,9 @@ import org.koin.dsl.module.Module
 import org.koin.dsl.module.module
 
 val dataModule: Module = module {
-    single { AuthRepository(get(), get(), get()) as IAuthRepository }
+    single { AuthRepository(get(), get(), get(), get()) as IAuthRepository }
     single { LocalPreferences(get()) as ILocalPreferences }
-    single { PostRepository(get(), get()) as IPostRepository }
+    single { PostRepository(get(), get(), get()) as IPostRepository }
     single { FirestoreManager() as IFirestoreManager }
     factory { NetworkManager(get()) }
     factory { AnalyticsManager(get()) }

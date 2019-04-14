@@ -6,6 +6,7 @@ import com.vortex.secret.data.UserSession
 import com.vortex.secret.data.local.ILocalPreferences
 import com.vortex.secret.data.local.NO_VALUE
 import com.vortex.secret.data.local.USER_ID
+import com.vortex.secret.data.remote.AnalyticsManager
 import com.vortex.secret.data.remote.IFirestoreManager
 import com.vortex.secret.data.remote.NetworkManager
 import com.vortex.secret.util.Result
@@ -37,6 +38,7 @@ interface IAuthRepository {
 class AuthRepository(
     private val firestoreManager: IFirestoreManager,
     private val localPreferences: ILocalPreferences,
+    private val analyticsManager: AnalyticsManager,
     private val networkManager: NetworkManager
 ) : IAuthRepository {
 
@@ -52,11 +54,13 @@ class AuthRepository(
                             handleAuthResult(task, continuation)
                         }.addOnFailureListener { error ->
                             continuation.resume(Result.Error(error))
+                            analyticsManager.sendError(error)
                         }
                     }
 
                 } catch (error: Exception) {
                     continuation.resumeWithException(error)
+                    analyticsManager.sendError(error)
                 }
             }
         }
@@ -74,11 +78,13 @@ class AuthRepository(
                             handleAuthResult(task, continuation)
                         }.addOnFailureListener { error ->
                             continuation.resume(Result.Error(error))
+                            analyticsManager.sendError(error)
                         }
                     }
 
                 } catch (error: Exception) {
                     continuation.resumeWithException(error)
+                    analyticsManager.sendError(error)
                 }
             }
         }
@@ -90,8 +96,9 @@ class AuthRepository(
                 try {
 
                     val userUuid = localPreferences.getString(USER_ID)
-                    userUuid.takeIf { it != NO_VALUE }?.let {
-                        UserSession.setupUser(it)
+                    userUuid.takeIf { it != NO_VALUE }?.let { uuid ->
+                        UserSession.setupUser(uuid)
+                        analyticsManager.updateUserId(uuid)
                         continuation.resume(Result.Success(true))
                     } ?: run {
                         continuation.resume(Result.Success(false))
@@ -99,6 +106,7 @@ class AuthRepository(
 
                 } catch (error: Exception) {
                     continuation.resumeWithException(error)
+                    analyticsManager.sendError(error)
                 }
             }
         }
@@ -116,6 +124,7 @@ class AuthRepository(
 
                 } catch (error: Exception) {
                     continuation.resumeWithException(error)
+                    analyticsManager.sendError(error)
                 }
             }
         }
@@ -129,6 +138,7 @@ class AuthRepository(
             task.result?.let {
                 it.user.uid.takeIf { uid -> uid.isNotEmpty() }?.let { uuid ->
                     UserSession.setupUser(uuid)
+                    analyticsManager.updateUserId(uuid)
                     localPreferences.putString(USER_ID, uuid)
                     continuation.resume(Result.Success(true))
                 } ?: run {
@@ -136,7 +146,10 @@ class AuthRepository(
                 }
             }
         } else {
-            task.exception?.let { continuation.resume(Result.Error(it)) }
+            task.exception?.let { error ->
+                continuation.resume(Result.Error(error))
+                analyticsManager.sendError(error)
+            }
         }
     }
 }

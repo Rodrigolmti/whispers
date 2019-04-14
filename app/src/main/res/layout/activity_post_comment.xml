@@ -22,10 +22,10 @@
         app:lottie_rawRes="@raw/loading"/>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/viewInput"
+        app:layout_constraintBottom_toTopOf="@+id/viSeparator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -63,6 +63,15 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <View
+        android:id="@+id/viSeparator"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/geyser"
+        app:layout_constraintBottom_toTopOf="@+id/viewInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <RelativeLayout
         android:id="@+id/viewInput"

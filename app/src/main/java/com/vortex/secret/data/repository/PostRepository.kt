@@ -7,6 +7,7 @@ import com.vortex.secret.data.mappers.mapFirebaseDocumentToPostMutableList
 import com.vortex.secret.data.model.PostCommentModel
 import com.vortex.secret.data.model.PostLikeModel
 import com.vortex.secret.data.model.PostModel
+import com.vortex.secret.data.remote.AnalyticsManager
 import com.vortex.secret.data.remote.IFirestoreManager
 import com.vortex.secret.data.remote.NetworkManager
 import com.vortex.secret.util.Result
@@ -40,6 +41,7 @@ interface IPostRepository {
 
 class PostRepository(
     private val firestoreManager: IFirestoreManager,
+    private val analyticsManager: AnalyticsManager,
     private val networkManager: NetworkManager
 ) : IPostRepository {
 
@@ -67,11 +69,13 @@ class PostRepository(
                             }
                         }.addOnFailureListener { error ->
                             continuation.resume(Result.Error(error))
+                            analyticsManager.sendError(error)
                         }
                     }
 
                 } catch (error: Exception) {
                     continuation.resumeWithException(error)
+                    analyticsManager.sendError(error)
                 }
             }
         }
@@ -95,11 +99,13 @@ class PostRepository(
                             }
                         }.addOnFailureListener { error ->
                             continuation.resume(Result.Error(error))
+                            analyticsManager.sendError(error)
                         }
                     }
 
                 } catch (error: Exception) {
                     continuation.resumeWithException(error)
+                    analyticsManager.sendError(error)
                 }
             }
         }
@@ -129,11 +135,13 @@ class PostRepository(
                             }
                         }.addOnFailureListener { error ->
                             continuation.resume(Result.Error(error))
+                            analyticsManager.sendError(error)
                         }
                     }
 
                 } catch (error: Exception) {
                     continuation.resumeWithException(error)
+                    analyticsManager.sendError(error)
                 }
             }
         }
@@ -163,6 +171,7 @@ class PostRepository(
                                             continuation.resume(Result.Success(updatedPostModel))
                                         }.addOnFailureListener { error ->
                                             continuation.resume(Result.Error(error))
+                                            analyticsManager.sendError(error)
                                         }
                                     }
                                 } ?: run {
@@ -170,6 +179,7 @@ class PostRepository(
                                 }
                             }.addOnFailureListener { error ->
                                 continuation.resume(Result.Error(error))
+                                analyticsManager.sendError(error)
                             }
                         } ?: run {
                             continuation.resume(Result.Error(EmptyDataError()))
@@ -178,6 +188,7 @@ class PostRepository(
 
                 } catch (error: Exception) {
                     continuation.resumeWithException(error)
+                    analyticsManager.sendError(error)
                 }
             }
         }
@@ -221,6 +232,7 @@ class PostRepository(
                                         continuation.resume(Result.Success(true))
                                     }.addOnFailureListener { error ->
                                         continuation.resume(Result.Error(error))
+                                        analyticsManager.sendError(error)
                                     }
 
                                 } ?: run {
@@ -228,6 +240,7 @@ class PostRepository(
                                 }
                             }.addOnFailureListener { error ->
                                 continuation.resume(Result.Error(error))
+                                analyticsManager.sendError(error)
                             }
                         } ?: run {
                             continuation.resume(Result.Error(EmptyDataError()))
@@ -236,6 +249,7 @@ class PostRepository(
 
                 } catch (error: Exception) {
                     continuation.resumeWithException(error)
+                    analyticsManager.sendError(error)
                 }
             }
         }
@@ -256,6 +270,7 @@ class PostRepository(
                                 continuation.resume(Result.Success(true))
                             }.addOnFailureListener { error ->
                                 continuation.resume(Result.Error(error))
+                                analyticsManager.sendError(error)
                             }
                         } ?: run {
                             continuation.resume(Result.Success(false))
@@ -264,6 +279,7 @@ class PostRepository(
 
                 } catch (error: Exception) {
                     continuation.resumeWithException(error)
+                    analyticsManager.sendError(error)
                 }
             }
         }
@@ -286,11 +302,13 @@ class PostRepository(
                             }
                         }.addOnFailureListener { error ->
                             continuation.resume(Result.Error(error))
+                            analyticsManager.sendError(error)
                         }
                     }
 
                 } catch (error: Exception) {
                     continuation.resumeWithException(error)
+                    analyticsManager.sendError(error)
                 }
             }
         }
