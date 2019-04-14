@@ -66,12 +66,50 @@
         app:layout_constraintTop_toTopOf="@+id/gdTop"/>
 
     <View
-        android:id="@+id/viSeparator"
+        android:id="@+id/viSeparatorLogout"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@color/geyser"
         app:layout_constraintEnd_toStartOf="@+id/gdEnd"
         app:layout_constraintStart_toStartOf="@+id/gdStart"
         app:layout_constraintTop_toBottomOf="@+id/tvLogout"/>
+
+    <TextView
+        android:id="@+id/tvAnonymous"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:padding="16dp"
+        android:clickable="true"
+        android:drawablePadding="16dp"
+        android:drawableStart="@drawable/ic_action_anonymous"
+        android:focusable="true"
+        android:foreground="?android:selectableItemBackground"
+        android:gravity="center|start"
+        android:text="Anonymous mode"
+        app:layout_constraintEnd_toStartOf="@+id/swAnonymous"
+        app:layout_constraintStart_toStartOf="@+id/gdStart"
+        app:layout_constraintTop_toBottomOf="@+id/viSeparatorLogout"/>
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/swAnonymous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:checked="true"
+        app:layout_constraintBottom_toBottomOf="@+id/viSeparatorAnonymous"
+        app:layout_constraintEnd_toStartOf="@+id/gdEnd"
+        app:layout_constraintTop_toBottomOf="@+id/tvLogout"/>
+
+    <View
+        android:id="@+id/viSeparatorAnonymous"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/geyser"
+        app:layout_constraintEnd_toStartOf="@+id/gdEnd"
+        app:layout_constraintStart_toStartOf="@+id/gdStart"
+        app:layout_constraintTop_toBottomOf="@+id/tvAnonymous"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

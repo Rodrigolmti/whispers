@@ -30,9 +30,19 @@ class SettingsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        lifecycle.addObserver(viewModel)
+
         tvLogout.setOnClickListener {
             viewModel.logoutUser()
         }
+
+        swAnonymous.setOnCheckedChangeListener { _, checked ->
+            viewModel.updateUserAnonymousMode(checked)
+        }
+
+        viewModel.responseAnonymousModeLiveData.observe(this, Observer {
+            swAnonymous.isChecked = it
+        })
 
         viewModel.errorLiveData.observe(this, Observer { error ->
             error.message?.let { view.showSnackBar(it) }
@@ -41,12 +51,16 @@ class SettingsFragment : BaseFragment() {
         viewModel.loadingLiveData.observe(this, Observer { isLoading ->
             if (isLoading) {
                 tvLogout.gone()
-                viSeparator.gone()
+                swAnonymous.gone()
+                viSeparatorLogout.gone()
+                viSeparatorAnonymous.gone()
                 ltLoading.visible()
             } else {
                 ltLoading.gone()
                 tvLogout.visible()
-                viSeparator.visible()
+                swAnonymous.visible()
+                viSeparatorLogout.visible()
+                viSeparatorAnonymous.visible()
             }
         })
 

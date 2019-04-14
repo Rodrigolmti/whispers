@@ -3,6 +3,7 @@ package com.vortex.secret.data.repository
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.vortex.secret.data.UserSession
+import com.vortex.secret.data.local.ANONYMOUS_MODE
 import com.vortex.secret.data.local.ILocalPreferences
 import com.vortex.secret.data.local.NO_VALUE
 import com.vortex.secret.data.local.USER_ID
@@ -120,6 +121,7 @@ class AuthRepository(
                     UserSession.removeUser()
                     firestoreManager.signOut()
                     localPreferences.clearKey(USER_ID)
+                    localPreferences.clearKey(ANONYMOUS_MODE)
                     continuation.resume(Result.Success(true))
 
                 } catch (error: Exception) {
