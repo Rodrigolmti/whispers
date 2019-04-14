@@ -36,7 +36,11 @@ class SignUpFragment : BaseFragment() {
         btSignUp.setOnClickListener {
             if (validateFields()) {
                 view.hideKeyboard()
-                viewModel.signUpUser(etEmail.text.toString(), etPassword.text.toString())
+                viewModel.signUpUser(
+                    etNickname.text.toString(),
+                    etEmail.text.toString(),
+                    etPassword.text.toString()
+                )
             }
         }
 

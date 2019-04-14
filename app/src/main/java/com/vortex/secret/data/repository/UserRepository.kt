@@ -6,6 +6,7 @@ import com.vortex.secret.data.local.ILocalPreferences
 import com.vortex.secret.data.local.USER_ID
 import com.vortex.secret.data.model.Session
 import com.vortex.secret.data.remote.AnalyticsManager
+import com.vortex.secret.data.remote.IFirestoreManager
 import com.vortex.secret.util.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -26,6 +27,7 @@ interface IUserRepository {
 
 class UserRepository(
     private val localPreferences: ILocalPreferences,
+    private val firestoreManager: IFirestoreManager,
     private val analyticsManager: AnalyticsManager
 ) : IUserRepository {
 
@@ -65,6 +67,7 @@ class UserRepository(
 
             UserSession.setupUserSession(
                 Session(
+                    firestoreManager.getCurrentUser()?.displayName,
                     localPreferences.getString(USER_ID),
                     localPreferences.getBoolean(ANONYMOUS_MODE)
                 )

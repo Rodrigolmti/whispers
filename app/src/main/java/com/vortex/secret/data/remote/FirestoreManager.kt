@@ -3,6 +3,8 @@ package com.vortex.secret.data.remote
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.*
 import com.vortex.secret.data.mappers.mapPostModelToFirebaseDocument
 import com.vortex.secret.data.model.PostModel
@@ -13,6 +15,10 @@ const val POST_HIGHLIGHT_LIMIT: Long = 10
 const val POST_COLLECTION = "posts"
 
 interface IFirestoreManager {
+
+    fun updateUserProfile(userProfileChangeRequest: UserProfileChangeRequest): Task<Void>?
+
+    fun getCurrentUser(): FirebaseUser?
 
     fun createUserWithEmailAndPassword(email: String, password: String): Task<AuthResult>
 
@@ -36,6 +42,11 @@ interface IFirestoreManager {
 }
 
 class FirestoreManager : IFirestoreManager {
+
+    override fun updateUserProfile(userProfileChangeRequest: UserProfileChangeRequest): Task<Void>? =
+        FirebaseAuth.getInstance().currentUser?.updateProfile(userProfileChangeRequest)
+
+    override fun getCurrentUser(): FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
     override fun createUserWithEmailAndPassword(email: String, password: String): Task<AuthResult> =
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)

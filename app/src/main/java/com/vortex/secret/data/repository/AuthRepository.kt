@@ -2,6 +2,7 @@ package com.vortex.secret.data.repository
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.vortex.secret.data.local.ILocalPreferences
 import com.vortex.secret.data.local.NO_VALUE
 import com.vortex.secret.data.local.USER_ID
@@ -20,6 +21,7 @@ import kotlin.coroutines.suspendCoroutine
 interface IAuthRepository {
 
     suspend fun signUpUserWithEmail(
+        nickname: String,
         email: String,
         password: String
     ): Result<Boolean>
@@ -42,7 +44,7 @@ class AuthRepository(
     private val networkManager: NetworkManager
 ) : IAuthRepository {
 
-    override suspend fun signUpUserWithEmail(email: String, password: String): Result<Boolean> {
+    override suspend fun signUpUserWithEmail(nickname: String, email: String, password: String): Result<Boolean> {
         return withContext(IO) {
             suspendCoroutine<Result<Boolean>> { continuation ->
                 try {
@@ -51,7 +53,13 @@ class AuthRepository(
                         continuation.resume(Result.Error(NetworkError()))
                     } else {
                         firestoreManager.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+
+                            firestoreManager.updateUserProfile(
+                                UserProfileChangeRequest.Builder()
+                                    .setDisplayName(nickname).build()
+                            )
                             handleAuthResult(task, continuation)
+
                         }.addOnFailureListener { error ->
                             continuation.resume(Result.Error(error))
                             analyticsManager.sendError(error)
