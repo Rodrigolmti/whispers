@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vortex.secret">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -31,6 +33,11 @@
             android:name=".ui.app.comment.PostCommentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="8e67140fd2c7681126394c6ab6fdde10fa9ca734"
+            />
 
     </application>
 
