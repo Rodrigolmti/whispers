@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.vortex.secret.data.model.PostCommentModel
 import com.vortex.secret.data.model.PostModel
 import com.vortex.secret.data.repository.IPostRepository
-import com.vortex.secret.util.BaseViewModel
+import com.vortex.secret.ui.base.BaseViewModel
 import com.vortex.secret.util.Result
 
 class PostCommentViewModel(private val repository: IPostRepository) : BaseViewModel() {

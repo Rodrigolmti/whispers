@@ -7,8 +7,9 @@ import com.google.firebase.firestore.*
 import com.vortex.secret.data.mappers.mapPostModelToFirebaseDocument
 import com.vortex.secret.data.model.PostModel
 
-const val ORDER_BY_DATE_PARAM = "createdAt"
 const val ORDER_BY_LIKE_PARAM = "likesCount"
+const val ORDER_BY_DATE_PARAM = "createdAt"
+const val POST_HIGHLIGHT_LIMIT: Long = 10
 const val POST_COLLECTION = "posts"
 
 interface IFirestoreManager {
@@ -51,7 +52,7 @@ class FirestoreManager : IFirestoreManager {
 
     override fun getHighlightedPosts(): Task<QuerySnapshot> =
         FirebaseFirestore.getInstance().collection(POST_COLLECTION)
-            .orderBy(ORDER_BY_LIKE_PARAM, Query.Direction.DESCENDING).limit(10)
+            .orderBy(ORDER_BY_LIKE_PARAM, Query.Direction.DESCENDING).limit(POST_HIGHLIGHT_LIMIT)
             .get()
 
     override fun addPost(postModel: PostModel): Task<DocumentReference> =

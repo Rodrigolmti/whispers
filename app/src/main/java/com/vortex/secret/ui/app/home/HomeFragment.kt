@@ -5,13 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vortex.secret.R
+import com.vortex.secret.data.remote.AnalyticsEvents
 import com.vortex.secret.ui.app.comment.POST_ID
 import com.vortex.secret.ui.app.comment.PostCommentActivity
 import com.vortex.secret.ui.app.home.adapter.PostAdapter
+import com.vortex.secret.ui.base.BaseFragment
 import com.vortex.secret.util.exceptions.EmptyDataError
 import com.vortex.secret.util.exceptions.NetworkError
 import com.vortex.secret.util.extensions.gone
@@ -20,7 +21,7 @@ import com.vortex.secret.util.extensions.visible
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
 
     private val viewModel by viewModel<HomeViewModel>()
     private lateinit var adapter: PostAdapter
@@ -91,8 +92,14 @@ class HomeFragment : Fragment() {
         rvPosts.layoutManager = LinearLayoutManager(context)
         adapter = PostAdapter(
             onClickView = {},
-            onClickLike = { viewModel.updatePostLike(it) },
-            onClickRemove = { viewModel.removePost(it) },
+            onClickLike = {
+                analyticsManager.sendEvent(AnalyticsEvents.LIKE_POST.name)
+                viewModel.updatePostLike(it)
+            },
+            onClickRemove = {
+                analyticsManager.sendEvent(AnalyticsEvents.REMOVE_POST.name)
+                viewModel.removePost(it)
+            },
             onClickComment = { postModel ->
                 val intent = Intent(context, PostCommentActivity::class.java)
                 intent.putExtra(POST_ID, postModel.id)

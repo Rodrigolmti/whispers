@@ -3,11 +3,12 @@ package com.vortex.secret.ui.app
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.vortex.secret.R
+import com.vortex.secret.data.remote.AnalyticsEvents
+import com.vortex.secret.ui.base.BaseActivity
 import com.vortex.secret.ui.custom.bottom_sheet.PostBottomSheet
 import com.vortex.secret.util.exceptions.NetworkError
 import com.vortex.secret.util.extensions.showSnackBar
@@ -16,7 +17,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 const val NAVIGATION_HOME = "fragment_home"
 
-class AppActivity : AppCompatActivity() {
+class AppActivity : BaseActivity() {
 
     private val viewModel by viewModel<AppViewModel>()
     private var menu: Menu? = null
@@ -67,6 +68,7 @@ class AppActivity : AppCompatActivity() {
         when (item?.itemId) {
             R.id.menu_post -> {
                 PostBottomSheet.newInstance {
+                    analyticsManager.sendEvent(AnalyticsEvents.ADD_POST.name)
                     viewModel.addNewPost(it)
                 }.show(supportFragmentManager)
             }

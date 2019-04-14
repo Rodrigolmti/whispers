@@ -6,10 +6,11 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.vortex.secret.R
 import com.vortex.secret.ui.app.AppActivity
+import com.vortex.secret.ui.base.BaseFragment
 import com.vortex.secret.util.exceptions.NetworkError
 import com.vortex.secret.util.extensions.gone
 import com.vortex.secret.util.extensions.hideKeyboard
@@ -18,7 +19,7 @@ import com.vortex.secret.util.extensions.visible
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SignUpFragment : Fragment() {
+class SignUpFragment : BaseFragment() {
 
     private val viewModel by viewModel<SignUpViewModel>()
 
@@ -60,6 +61,7 @@ class SignUpFragment : Fragment() {
         viewModel.authResponseLiveData.observe(this, Observer {
             if (it) {
                 startActivity(Intent(context, AppActivity::class.java))
+                analyticsManager.sendEvent(FirebaseAnalytics.Event.SIGN_UP)
                 activity?.finish()
             } else {
                 view.showSnackBar(getString(R.string.general_error))

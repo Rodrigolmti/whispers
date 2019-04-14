@@ -7,10 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.vortex.secret.R
 import com.vortex.secret.data.model.PostCommentModel
+import com.vortex.secret.ui.base.BaseAdapter
+import com.vortex.secret.ui.base.BaseViewHolder
+import com.vortex.secret.ui.base.OnClick
 import com.vortex.secret.ui.custom.CustomCircleView
-import com.vortex.secret.util.BaseAdapter
-import com.vortex.secret.util.BaseViewHolder
-import com.vortex.secret.util.OnClick
 
 class PostCommentAdapter : BaseAdapter<PostCommentModel>() {
 

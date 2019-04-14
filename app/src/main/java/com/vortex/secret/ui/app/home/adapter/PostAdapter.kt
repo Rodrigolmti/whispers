@@ -10,17 +10,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vortex.secret.R
 import com.vortex.secret.data.UserSession
 import com.vortex.secret.data.model.PostModel
-import com.vortex.secret.util.BaseAdapter
-import com.vortex.secret.util.BaseViewHolder
-import com.vortex.secret.util.OnClick
+import com.vortex.secret.ui.base.BaseAdapter
+import com.vortex.secret.ui.base.BaseViewHolder
+import com.vortex.secret.ui.base.OnClick
 import com.vortex.secret.util.extensions.gone
 import com.vortex.secret.util.extensions.visible
 
 class PostAdapter(
-        private val onClickView: OnClick<PostModel>,
-        private val onClickLike: OnClick<PostModel>,
-        private val onClickRemove: OnClick<PostModel>,
-        private val onClickComment: OnClick<PostModel>
+    private val onClickView: OnClick<PostModel>,
+    private val onClickLike: OnClick<PostModel>,
+    private val onClickRemove: OnClick<PostModel>,
+    private val onClickComment: OnClick<PostModel>
 ) : BaseAdapter<PostModel>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -52,9 +52,9 @@ class PostAdapter(
         }
 
         fun setActionClicks(
-                onClickLike: OnClick<PostModel>,
-                onClickRemove: OnClick<PostModel>,
-                onClickComment: OnClick<PostModel>
+            onClickLike: OnClick<PostModel>,
+            onClickRemove: OnClick<PostModel>,
+            onClickComment: OnClick<PostModel>
         ) {
             this.onClickComment = onClickComment
             this.onClickRemove = onClickRemove

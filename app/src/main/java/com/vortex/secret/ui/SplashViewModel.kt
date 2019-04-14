@@ -2,7 +2,7 @@ package com.vortex.secret.ui
 
 import androidx.lifecycle.*
 import com.vortex.secret.data.repository.IAuthRepository
-import com.vortex.secret.util.BaseViewModel
+import com.vortex.secret.ui.base.BaseViewModel
 import com.vortex.secret.util.Result
 
 class SplashViewModel(private val repository: IAuthRepository) : BaseViewModel(), LifecycleObserver {

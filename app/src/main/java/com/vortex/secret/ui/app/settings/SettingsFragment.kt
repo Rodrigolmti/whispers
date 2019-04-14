@@ -5,17 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.vortex.secret.R
+import com.vortex.secret.data.remote.AnalyticsEvents
 import com.vortex.secret.ui.auth.LoginActivity
+import com.vortex.secret.ui.base.BaseFragment
 import com.vortex.secret.util.extensions.gone
 import com.vortex.secret.util.extensions.showSnackBar
 import com.vortex.secret.util.extensions.visible
 import kotlinx.android.synthetic.main.fragment_settings.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : BaseFragment() {
 
     private val viewModel by viewModel<SettingsViewModel>()
 
@@ -51,6 +52,7 @@ class SettingsFragment : Fragment() {
 
         viewModel.responseLogoutLiveData.observe(this, Observer {
             startActivity(Intent(context, LoginActivity::class.java))
+            analyticsManager.sendEvent(AnalyticsEvents.LOGOUT.name)
             activity?.finish()
         })
     }

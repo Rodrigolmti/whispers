@@ -6,17 +6,18 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.vortex.secret.R
 import com.vortex.secret.ui.app.AppActivity
+import com.vortex.secret.ui.base.BaseFragment
 import com.vortex.secret.util.exceptions.NetworkError
 import com.vortex.secret.util.extensions.*
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SignInFragment : Fragment() {
+class SignInFragment : BaseFragment() {
 
     private val viewModel by viewModel<SignInViewModel>()
 
@@ -63,6 +64,7 @@ class SignInFragment : Fragment() {
         viewModel.authResponseLiveData.observe(this, Observer {
             if (it) {
                 startActivity(Intent(context, AppActivity::class.java))
+                analyticsManager.sendEvent(FirebaseAnalytics.Event.LOGIN)
                 activity?.finish()
             } else {
                 view.showSnackBar(getString(R.string.general_error))

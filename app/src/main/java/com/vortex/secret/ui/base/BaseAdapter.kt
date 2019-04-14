@@ -1,4 +1,4 @@
-package com.vortex.secret.util
+package com.vortex.secret.ui.base
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

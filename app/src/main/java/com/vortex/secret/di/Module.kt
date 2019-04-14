@@ -2,6 +2,7 @@ package com.vortex.secret.di
 
 import com.vortex.secret.data.local.ILocalPreferences
 import com.vortex.secret.data.local.LocalPreferences
+import com.vortex.secret.data.remote.AnalyticsManager
 import com.vortex.secret.data.remote.FirestoreManager
 import com.vortex.secret.data.remote.IFirestoreManager
 import com.vortex.secret.data.remote.NetworkManager
@@ -26,6 +27,7 @@ val dataModule: Module = module {
     single { PostRepository(get(), get()) as IPostRepository }
     single { FirestoreManager() as IFirestoreManager }
     factory { NetworkManager(get()) }
+    factory { AnalyticsManager(get()) }
 }
 
 val viewModelModule: Module = module {

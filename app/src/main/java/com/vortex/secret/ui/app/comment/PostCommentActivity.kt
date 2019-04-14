@@ -2,14 +2,15 @@ package com.vortex.secret.ui.app.comment
 
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vortex.secret.R
 import com.vortex.secret.data.model.PostCommentModel
 import com.vortex.secret.data.model.PostModel
+import com.vortex.secret.data.remote.AnalyticsEvents
 import com.vortex.secret.ui.app.home.adapter.PostCommentAdapter
+import com.vortex.secret.ui.base.BaseActivity
 import com.vortex.secret.util.exceptions.NetworkError
 import com.vortex.secret.util.extensions.gone
 import com.vortex.secret.util.extensions.hideKeyboard
@@ -20,7 +21,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 const val POST_ID = "postId"
 
-class PostCommentActivity : AppCompatActivity() {
+class PostCommentActivity : BaseActivity() {
 
     private val viewModel by viewModel<PostCommentViewModel>()
     private lateinit var adapter: PostCommentAdapter
@@ -40,6 +41,7 @@ class PostCommentActivity : AppCompatActivity() {
             if (validateField()) {
                 val postCommentModel = PostCommentModel(comment = etComment.text.toString())
                 window.decorView.rootView.hideKeyboard()
+                analyticsManager.sendEvent(AnalyticsEvents.ADD_COMMENT.name)
                 viewModel.updatePostComment(postModel, postCommentModel)
                 etComment.text = null
             }

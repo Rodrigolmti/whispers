@@ -3,7 +3,7 @@ package com.vortex.secret.ui.auth.sign_in
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.vortex.secret.data.repository.IAuthRepository
-import com.vortex.secret.util.BaseViewModel
+import com.vortex.secret.ui.base.BaseViewModel
 import com.vortex.secret.util.Result
 
 class SignInViewModel(private val repository: IAuthRepository) : BaseViewModel() {
