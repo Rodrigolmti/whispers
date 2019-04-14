@@ -8,6 +8,7 @@ import java.util.*
 fun mapPostModelToFirebaseDocument(postModel: PostModel): HashMap<String, Any> {
     val hashMap = HashMap<String, Any>()
     postModel.authorId?.let { hashMap["authorId"] = it }
+    postModel.authorName?.let { hashMap["authorName"] = it }
     postModel.body?.let { hashMap["body"] = it }
     postModel.createdAt?.let { hashMap["createdAt"] = it }
     postModel.color?.let { hashMap["color"] = it }

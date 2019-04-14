@@ -29,6 +29,7 @@
     <string name="sign_up_fragment_title">Resgistrar</string>
 
     <string name="home_empty_list_fragment">Opa! Não tem nada por aqui, \nPorque você não tenta adicionar um conteúdo?</string>
+    <string name="home_author_name_fragment">Por By %s</string>
 
     <string name="post_comment_error_fragment">Por favor informe um conteúdo para o seu comentario!</string>
     <string name="post_comment_hint_fragment">Informe seu comentatio aqui!</string>

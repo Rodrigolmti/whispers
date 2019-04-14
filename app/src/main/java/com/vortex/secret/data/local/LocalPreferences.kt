@@ -7,6 +7,7 @@ import com.vortex.secret.util.extensions.encrypt
 
 const val FILENAME = "whispers_secure_prefs"
 const val ANONYMOUS_MODE = "anonymous_mode"
+const val USER_NAME = "user_name"
 const val NO_VALUE = "no_value"
 const val USER_ID = "user_id"
 

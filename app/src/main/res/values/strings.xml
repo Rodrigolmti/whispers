@@ -29,6 +29,7 @@
     <string name="sign_up_fragment_title">Sign Up</string>
 
     <string name="home_empty_list_fragment">Ops! Nothing here, \nwhy don\'t you try put some new content?</string>
+    <string name="home_author_name_fragment">By %s</string>
 
     <string name="post_comment_error_fragment">Please inform a content to your comment!</string>
     <string name="post_comment_hint_fragment">Type your comment here!</string>

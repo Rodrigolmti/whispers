@@ -1,9 +1,7 @@
 package com.vortex.secret.data.repository
 
 import com.vortex.secret.data.UserSession
-import com.vortex.secret.data.local.ANONYMOUS_MODE
-import com.vortex.secret.data.local.ILocalPreferences
-import com.vortex.secret.data.local.USER_ID
+import com.vortex.secret.data.local.*
 import com.vortex.secret.data.model.Session
 import com.vortex.secret.data.remote.AnalyticsManager
 import com.vortex.secret.data.remote.IFirestoreManager
@@ -37,6 +35,7 @@ class UserRepository(
                 try {
 
                     localPreferences.putBoolean(ANONYMOUS_MODE, anonymous)
+                    UserSession.session?.userAnonymousMode = anonymous
                     continuation.resume(Result.Success(true))
 
                 } catch (error: Exception) {
@@ -65,9 +64,15 @@ class UserRepository(
     override fun updateUserSession() {
         try {
 
+            val nickname = if (localPreferences.getString(USER_NAME) == NO_VALUE) {
+                firestoreManager.getCurrentUser()?.displayName
+            } else {
+                localPreferences.getString(USER_NAME)
+            }
+
             UserSession.setupUserSession(
                 Session(
-                    firestoreManager.getCurrentUser()?.displayName,
+                    nickname,
                     localPreferences.getString(USER_ID),
                     localPreferences.getBoolean(ANONYMOUS_MODE)
                 )

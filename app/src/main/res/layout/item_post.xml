@@ -26,6 +26,19 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Porque devemos trabalhar, mesmo não querendo? Fica a duvida"/>
 
+        <TextView
+            android:id="@+id/tvAuthor"
+            style="@style/Whisper.Post.Counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="16dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Rodrigolmti"
+            tools:visibility="visible"/>
+
         <ImageView
             android:id="@+id/ivRemove"
             android:layout_width="22dp"

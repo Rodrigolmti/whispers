@@ -25,7 +25,7 @@ class PostAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return Item(
-                LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
         )
     }
 
@@ -66,6 +66,8 @@ class PostAdapter(
             val container = itemView.findViewById<View>(R.id.container)
             val textView = itemView.findViewById<TextView>(R.id.tvBody)
 
+            val tvAuthor = itemView.findViewById<TextView>(R.id.tvAuthor)
+
             val ivLikes = itemView.findViewById<ImageView>(R.id.ivLikes)
             val tvLikes = itemView.findViewById<TextView>(R.id.tvLikes)
 
@@ -78,6 +80,13 @@ class PostAdapter(
                 ivRemove.visible()
             } else {
                 ivRemove.gone()
+            }
+
+            item.authorName?.let {
+                tvAuthor.text = itemView.context.getString(R.string.home_author_name_fragment, it)
+                tvAuthor.visible()
+            } ?: run {
+                tvAuthor.gone()
             }
 
             item.color?.let {

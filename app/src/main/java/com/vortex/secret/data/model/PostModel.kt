@@ -3,6 +3,7 @@ package com.vortex.secret.data.model
 data class PostModel(
         var id: String? = null,
         var authorId: String? = null,
+        var authorName: String? = null,
         var createdAt: String? = null,
         var body: String? = null,
         var color: Int? = null,

@@ -6,6 +6,7 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.vortex.secret.data.local.ILocalPreferences
 import com.vortex.secret.data.local.NO_VALUE
 import com.vortex.secret.data.local.USER_ID
+import com.vortex.secret.data.local.USER_NAME
 import com.vortex.secret.data.remote.AnalyticsManager
 import com.vortex.secret.data.remote.IFirestoreManager
 import com.vortex.secret.data.remote.NetworkManager
@@ -54,6 +55,7 @@ class AuthRepository(
                     } else {
                         firestoreManager.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
 
+                            localPreferences.putString(USER_NAME, nickname)
                             firestoreManager.updateUserProfile(
                                 UserProfileChangeRequest.Builder()
                                     .setDisplayName(nickname).build()

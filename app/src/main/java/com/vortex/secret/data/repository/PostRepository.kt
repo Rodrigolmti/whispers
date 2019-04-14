@@ -120,6 +120,9 @@ class PostRepository(
                         continuation.resume(Result.Error(NetworkError()))
                     } else {
 
+                        if (UserSession.session?.userAnonymousMode == false) {
+                            postModel.authorName = UserSession.session?.nickname
+                        }
                         postModel.authorId = UserSession.session?.userUuid
                         postModel.createdAt = Date().toString()
 
