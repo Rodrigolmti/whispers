@@ -73,7 +73,7 @@ class PostAdapter(
             val tvComments = itemView.findViewById<TextView>(R.id.tvComments)
 
             val ivRemove = itemView.findViewById<ImageView>(R.id.ivRemove)
-            if (item.authorId == UserSession.userId) {
+            if (item.authorId == UserSession.session?.userUuid) {
                 ivRemove.setOnClickListener { onClickRemove(item) }
                 ivRemove.visible()
             } else {

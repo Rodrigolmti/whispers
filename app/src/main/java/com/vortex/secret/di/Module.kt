@@ -19,7 +19,7 @@ import org.koin.dsl.module.Module
 import org.koin.dsl.module.module
 
 val dataModule: Module = module {
-    single { AuthRepository(get(), get(), get(), get()) as IAuthRepository }
+    single { AuthRepository(get(), get(), get(), get(), get()) as IAuthRepository }
     single { LocalPreferences(get()) as ILocalPreferences }
     single { UserRepository(get(), get()) as IUserRepository }
     single { PostRepository(get(), get(), get()) as IPostRepository }

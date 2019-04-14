@@ -1,14 +1,16 @@
 package com.vortex.secret.data
 
+import com.vortex.secret.data.model.Session
+
 object UserSession {
 
-    var userId: String? = null
+    var session: Session? = null
 
-    fun setupUser(userId: String) {
-        this.userId = userId
+    fun setupUserSession(session: Session) {
+        this.session = session
     }
 
     fun removeUser() {
-        userId = null
+        session = null
     }
 }

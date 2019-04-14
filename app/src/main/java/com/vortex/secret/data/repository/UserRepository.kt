@@ -1,7 +1,10 @@
 package com.vortex.secret.data.repository
 
+import com.vortex.secret.data.UserSession
 import com.vortex.secret.data.local.ANONYMOUS_MODE
 import com.vortex.secret.data.local.ILocalPreferences
+import com.vortex.secret.data.local.USER_ID
+import com.vortex.secret.data.model.Session
 import com.vortex.secret.data.remote.AnalyticsManager
 import com.vortex.secret.util.Result
 import kotlinx.coroutines.Dispatchers
@@ -15,6 +18,10 @@ interface IUserRepository {
     suspend fun updateUserAnonymousMode(anonymous: Boolean): Result<Boolean>
 
     suspend fun getUserAnonymousMode(): Result<Boolean>
+
+    fun updateUserSession()
+
+    fun clearUserSession()
 }
 
 class UserRepository(
@@ -50,6 +57,33 @@ class UserRepository(
                     analyticsManager.sendError(error)
                 }
             }
+        }
+    }
+
+    override fun updateUserSession() {
+        try {
+
+            UserSession.setupUserSession(
+                Session(
+                    localPreferences.getString(USER_ID),
+                    localPreferences.getBoolean(ANONYMOUS_MODE)
+                )
+            )
+
+        } catch (error: Exception) {
+            analyticsManager.sendError(error)
+        }
+    }
+
+    override fun clearUserSession() {
+        try {
+
+            UserSession.removeUser()
+            localPreferences.clearKey(USER_ID)
+            localPreferences.clearKey(ANONYMOUS_MODE)
+
+        } catch (error: Exception) {
+            analyticsManager.sendError(error)
         }
     }
 }

@@ -119,7 +119,8 @@ class PostRepository(
                     if (!networkManager.isOnline()) {
                         continuation.resume(Result.Error(NetworkError()))
                     } else {
-                        postModel.authorId = UserSession.userId
+
+                        postModel.authorId = UserSession.session?.userUuid
                         postModel.createdAt = Date().toString()
 
                         firestoreManager.addPost(postModel).addOnSuccessListener {
@@ -160,7 +161,7 @@ class PostRepository(
                                 val updatedPostModel = mapFirebaseDocumentToPostModel(result)
                                 updatedPostModel?.let {
 
-                                    val authorId = UserSession.userId
+                                    val authorId = UserSession.session?.userUuid
                                     postCommentModel.authorId = authorId
                                     postCommentModel.createdAt = Date().toString()
                                     updatedPostModel.comments.add(postCommentModel)
@@ -208,7 +209,7 @@ class PostRepository(
                                 val updatedPostModel = mapFirebaseDocumentToPostModel(result)
                                 updatedPostModel?.let {
 
-                                    val authorId = UserSession.userId
+                                    val authorId = UserSession.session?.userUuid
                                     var removeIndex = -1
 
                                     updatedPostModel.likes.forEachIndexed { index, postLike ->
